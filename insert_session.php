@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -23,9 +24,9 @@
 
     <?php include_once "sidebar.php"; ?>
 
-    <div class="p-4 sm:ml-64">
-    <div class="p-4 h-screen overflow-y-scroll border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-        <div class="container mx-auto mt-5">
+    <div class="p-4 h-screen sm:ml-64">
+    <div class="p-4  w-full rounded-lg dark:border-gray-700">
+        <div class="mx-auto mt-5 md:w-1/2">
             <h2 class="text-2xl font-semibold mb-6">Add Session</h2>
             <form action="add_session.php" method="POST" class="space-y-4">
                 <div class="form-group">

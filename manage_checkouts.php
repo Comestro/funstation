@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -24,8 +25,8 @@
     <?php include_once "sidebar.php"; ?>
 
     <!-- Main Content -->
-    <div class="p-4 sm:ml-64">
-        <div class="p-4 h-screen overflow-y-scroll border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+    <div class="p-4 h-screen  sm:ml-64">
+        <div class="p-4 rounded-lg dark:border-gray-700">
             <div class="grid grid-cols-1 gap-4 mb-4">
                 <div class="flex justify-between items-center ">
                     <h3 class="text-xl font-semibold">Checkout Sessions</h3>
