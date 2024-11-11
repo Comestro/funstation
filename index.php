@@ -1,6 +1,6 @@
 <?php
 require_once 'config/database.php';
-require_once 'include/login_required.php';
+// require_once 'include/login_required.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,9 +101,9 @@ require_once 'include/login_required.php';
             function loadSessions() {
                 $.getJSON('api/get_sessions.php', function(data) {
                     $('#currentSessions').empty();
-                    $("#count_session").html(data.current_sessions.length);
                     // Display current sessions
                     let length = data.current_sessions.length;
+                    $("#count_session").html(length);
                     // Get the current hour
                     const currentHour = new Date().getHours();
                     let greeting;

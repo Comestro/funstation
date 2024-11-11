@@ -4,7 +4,33 @@ require_once 'config/database.php';
 // Fetch all admins without selecting the 'role' column
 $query = "SELECT id, username FROM admin";
 $result = $db->query($query);
-?>
+
+                    // Handle form submission for admin signup
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $username = $_POST['username'];
+                        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
+
+                        // Check if the username already exists
+                        $checkQuery = "SELECT * FROM admin WHERE username = '$username'";
+                        $checkResult = $db->query($checkQuery);
+
+                        if ($checkResult->num_rows > 0) {
+                            // Username already exists
+                            echo "<p class='text-red-500'>Error: Username already exists.</p>";
+                        } else {
+                            // Insert the new admin record into the database
+                            $insertQuery = "INSERT INTO admin (username, password) VALUES ('$username', '$password')";
+
+                            if ($db->query($insertQuery) === TRUE) {
+                                // Redirect to refresh the page and clear the form
+                                header("Location: " . $_SERVER['PHP_SELF']);
+                                exit;
+                            } else {
+                                echo "<p class='text-red-500'>Error: " . $db->error . "</p>";
+                            }
+                        }
+                    }
+                    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,33 +76,7 @@ $result = $db->query($query);
 
                         <button type="submit" class="bg-blue-500 text-white p-2 rounded w-full">Sign Up</button>
                     </form>
-                    <?php
-                    // Handle form submission for admin signup
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        $username = $_POST['username'];
-                        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
-
-                        // Check if the username already exists
-                        $checkQuery = "SELECT * FROM admin WHERE username = '$username'";
-                        $checkResult = $db->query($checkQuery);
-
-                        if ($checkResult->num_rows > 0) {
-                            // Username already exists
-                            echo "<p class='text-red-500'>Error: Username already exists.</p>";
-                        } else {
-                            // Insert the new admin record into the database
-                            $insertQuery = "INSERT INTO admin (username, password) VALUES ('$username', '$password')";
-
-                            if ($db->query($insertQuery) === TRUE) {
-                                // Redirect to refresh the page and clear the form
-                                header("Location: " . $_SERVER['PHP_SELF']);
-                                exit;
-                            } else {
-                                echo "<p class='text-red-500'>Error: " . $db->error . "</p>";
-                            }
-                        }
-                    }
-                    ?>
+                    
                 </div>
 
                 <!-- Display Admin Records Table -->

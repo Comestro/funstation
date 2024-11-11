@@ -2,8 +2,18 @@
 session_start();
 include 'config/database.php'; // Include database connection
 
-// Define hourly rate (inclusive of GST) and GST rate
-$hourlyRateInclusive = 250; // Set your hourly rate inclusive of GST
+// Fetch business information and hourly rate from the settings table
+$settingsQuery = "SELECT business_name, email, contact, hourly_charge, address FROM settings LIMIT 1";
+$settingsResult = $db->query($settingsQuery);
+$settings = $settingsResult->fetch_assoc();
+
+// Define default values if settings are not available
+$businessName = $settings['business_name'] ?? 'Kids FunStation';
+$businessEmail = $settings['email'] ?? 'info@gamezone.com';
+$businessContact = $settings['contact'] ?? '9608297530, 82944913382';
+$hourlyRateInclusive = $settings['hourly_charge'] ?? 250; // Default to 250 if not set
+$businessAddress = $settings['address'] ?? 'Panorama Rameshwaram, 1<sup>st</sup> floor, <br> Near Tanishq Showroom, Line Bazaar, Purnea, Bihar (854301)';
+
 $gstRate = 0.18; // 18% GST
 
 // Get session_id from URL
@@ -96,8 +106,7 @@ if ($sessionId) {
             display: flex;
             justify-content: center;
             margin-top: 10px;
-            flex:1;
-            gap:5px;
+            gap: 5px;
         }
         .btn-red{
             background-color: hotpink;
@@ -119,12 +128,10 @@ if ($sessionId) {
     <!-- Header Section -->
     <div class="receipt-header">
         <p class="center">
-            <strong class="heading">Kids FunStation</strong><br>
-            Panorama Rameshwaram, 1<sup>st</sup> floor, <br>
-            Near Tanishq Showroom, Line Bazaar, 
-            Purnea, Bihar (854301)<br><br>
-            Phone: 9608297530, 82944913382<br>
-            Email: info@gamezone.com
+            <strong class="heading"><?= htmlspecialchars($businessName) ?></strong><br>
+            <?= htmlspecialchars($businessAddress);?><br><br>
+            Phone: <?= htmlspecialchars($businessContact) ?><br>
+            Email: <?= htmlspecialchars($businessEmail) ?>
         </p>
     </div>
 
@@ -156,13 +163,13 @@ if ($sessionId) {
 
     <!-- Footer Section -->
     <div class="footer">
-        <p>Thank you for visiting Game Zone!</p>
+        <p>Thank you for visiting <?= htmlspecialchars($businessName) ?>!</p>
         <p>Visit Again!</p>
     </div>
 </div>
 <br>
 <div class="btn-container">
-    <a href="" class="btn btn-red" onclick="window.print()">Print Recipts</a>
+    <a href="" class="btn btn-red" onclick="window.print()">Print Receipt</a>
     <a href="index.php" class="btn btn-green">Go Back</a>
 </div>
 

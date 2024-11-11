@@ -5,7 +5,7 @@ require_once '../config/database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $check_in_time = $_POST['check_in_time'];
-    $assigned_hours = isset($_POST['assigned_hours']) ? (int)$_POST['assigned_hours'] : null;
+    $assigned_hours = isset($_POST['assigned_hours']) ? (int)$_POST['assigned_hours'] : 1;
     $age = $_POST['age'];
     $contact = $_POST['contact'];
 
