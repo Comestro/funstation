@@ -1,9 +1,0 @@
-game_zone/
-├── index.php                # Homepage
-├── register.php             # User registration
-├── login.php                # User login
-├── dashboard.php            # Main dashboard for check-in/check-out
-├── checkin.php              # Check-in script
-├── checkout.php             # Check-out script
-├── db.php                   # Database connection
-└── config.php               # Configuration file

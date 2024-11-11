@@ -1,10 +1,11 @@
+<?php include "config/database.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Zone Check-In System</title>
+    <title>Analytics | <?php echo htmlspecialchars($title); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
@@ -23,7 +24,7 @@
         </svg>
     </button>
 
-    <?php include_once "sidebar.php"; ?>
+    <?php include_once "include/sidebar.php"; ?>
     <div class="p-4 h-screen  sm:ml-64">
         <div class="p-4 rounded-lg dark:border-gray-700">
       
@@ -50,7 +51,7 @@
         $(document).ready(function() {
             // Fetch data from the server
             $.ajax({
-                url: 'get_report_data.php',
+                url: 'api/get_report_data.php',
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {

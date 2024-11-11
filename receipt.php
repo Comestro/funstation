@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'database.php'; // Include database connection
+include 'config/database.php'; // Include database connection
 
 // Define hourly rate (inclusive of GST) and GST rate
 $hourlyRateInclusive = 250; // Set your hourly rate inclusive of GST
@@ -38,7 +38,7 @@ if ($sessionId) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Receipt</title>
+    <title>Bill Generated | <?php echo htmlspecialchars($title); ?></title>
     <style>
         /* Thermal Printer Style */
         body {
@@ -51,6 +51,7 @@ if ($sessionId) {
 
         .receipt-container {
             padding: 10px;
+            margin-top: 20px;
             border: 1px dashed #333;
         }
 
@@ -82,6 +83,34 @@ if ($sessionId) {
         }
         .heading{
             font-size: 18px;
+        }
+        .btn{
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-container{
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            flex:1;
+            gap:5px;
+        }
+        .btn-red{
+            background-color: hotpink;
+            font-family: sans-serif;
+        }
+        .btn-green{
+            background-color: teal;
+            font-family: sans-serif;
+        }
+        @media print {
+           .btn {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -131,5 +160,11 @@ if ($sessionId) {
         <p>Visit Again!</p>
     </div>
 </div>
+<br>
+<div class="btn-container">
+    <a href="" class="btn btn-red" onclick="window.print()">Print Recipts</a>
+    <a href="index.php" class="btn btn-green">Go Back</a>
+</div>
+
 </body>
 </html>

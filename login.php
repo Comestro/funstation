@@ -9,9 +9,8 @@
     <style>
         body {
             background-color: #f9fafb;
-            background-image: url("bg.jpg");     
+            background-image: url("images/bg.jpg");     
             background-size: cover;
-
         }
 
         .login-container {
@@ -53,8 +52,8 @@
 <body>
     <div class="login-container">
         <div class="login-card">
-            <img src="logo.png" alt="Logo" class="logo">
-            <form action="admin_login.php" method="POST">
+            <img src="images/logo.png" alt="Logo" class="logo">
+            <form action="function/process_admin_login.php" method="POST">
                 <div class="mb-4">
                     <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
                     <input type="text" id="username" name="username" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your username">

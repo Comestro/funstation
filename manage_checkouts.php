@@ -1,10 +1,11 @@
+<?php include_once "config/database.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Zone Check-In System</title>
+    <title>Manage checkout Sessions | <?php echo htmlspecialchars($title); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
@@ -22,15 +23,15 @@
         </svg>
     </button>
 
-    <?php include_once "sidebar.php"; ?>
+    <?php include_once "include/sidebar.php"; ?>
 
     <!-- Main Content -->
-    <div class="p-4 h-screen  sm:ml-64">
+    <div class="p-4 md:h-screen  sm:ml-64">
         <div class="p-4 rounded-lg dark:border-gray-700">
             <div class="grid grid-cols-1 gap-4 mb-4">
-                <div class="flex justify-between items-center ">
-                    <h3 class="text-xl font-semibold">Checkout Sessions</h3>
-                    <div class="flex items-center gap-2">
+                <div class="flex md:flex-row flex-col md:justify-between nd:items-center ">
+                    <h3 class="text-xl font-semibold md:mb-0 mb-4">Checkout Sessions</h3>
+                    <div class="flex md:items-center md:flex-row justify-between  gap-2">
                       
                         <!-- search work -->
                         <div class="flex">
@@ -49,6 +50,7 @@
                 </div>
 
 
+                <div class="overflow-x-scroll">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -64,6 +66,7 @@
                         <!-- Session rows will be dynamically inserted here -->
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
@@ -73,7 +76,7 @@
     $(document).ready(function() {
         // Load sessions data and update the session list
         function loadSessions(filter = 'today', search = '') {
-            $.getJSON('get_sessions.php', {
+            $.getJSON('api/get_sessions.php', {
                 filter: filter,
                 search: search
             }, function(data) {
@@ -118,7 +121,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex gap-2">
-                                    <a href="receipt.php?session_id=${session.session_id}" class="text-blue-600 hover:text-blue-800">Receipt</a>
+                                    <a  href="receipt.php?session_id=${session.session_id}" class="text-blue-600 hover:text-blue-800">Receipt</a>
                                 </div>
                             </td>
                         </tr>

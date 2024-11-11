@@ -1,10 +1,14 @@
+<?php
+require_once 'config/database.php';
+// require_once 'include/login_required.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Zone Check-In System</title>
+    <title><?php echo htmlspecialchars($title); ?> - a world for kidz </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
@@ -22,7 +26,7 @@
         </svg>
     </button>
 
-    <?php include_once "sidebar.php"; ?>
+    <?php include_once "include/sidebar.php"; ?>
 
     <!-- Main Content -->
     <div class="p-4 sm:ml-64">
@@ -45,28 +49,11 @@
                             <div id="ex1" class="modal">
                                 <div class="mx-auto mt-5">
                                     <h2 class="text-2xl font-semibold mb-6">Add Session</h2>
-                                    <form action="add_session.php" method="POST" class="space-y-4">
-                                        <div class="form-group">
-                                            <label for="name" class="block text-sm font-medium text-gray-700">Kid's Name:</label>
-                                            <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="age" class="block text-sm font-medium text-gray-700">Kid's Age:</label>
-                                            <input type="number" id="age" name="age" min="1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="check_in_time" class="block text-sm font-medium text-gray-700">Check-in Time:</label>
-                                            <input type="datetime-local" id="check_in_time" name="check_in_time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="assigned_hours" class="block text-sm font-medium text-gray-700">Assigned Hours:</label>
-                                            <input type="number" id="assigned_hours" name="assigned_hours" min="1" max="24" placeholder="Optional" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        </div>
-                                        <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Session</button>
-                                    </form>
+                                    <?php include "include/insert_session_form.php"; ?>
+
                                 </div>
                             </div>
-                            <a href="index.php" class="bg-white hover:bg-gray-50 border border-green-600 text-green-600 font-semibold px-3 py-2 rounded shadow flex items-center gap-1">
+                            <a href="index.php" class="hidden bg-white hover:bg-gray-50 border border-green-600 text-green-600 font-semibold px-3 py-2 rounded shadow md:flex items-center gap-1">
                                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4" />
                                 </svg>
@@ -112,10 +99,32 @@
         $(document).ready(function() {
             // Load sessions data and update the session list
             function loadSessions() {
-                $.getJSON('get_sessions.php', function(data) {
+                $.getJSON('api/get_sessions.php', function(data) {
                     $('#currentSessions').empty();
                     $("#count_session").html(data.current_sessions.length);
                     // Display current sessions
+                    let length = data.current_sessions.length;
+                    // Get the current hour
+                    const currentHour = new Date().getHours();
+                    let greeting;
+
+                    // Determine the greeting based on the current hour
+                    if (currentHour >= 5 && currentHour < 12) {
+                        greeting = "Good morning";
+                    } else if (currentHour >= 12 && currentHour < 17) {
+                        greeting = "Good afternoon";
+                    } else {
+                        greeting = "Good evening";
+                    }
+
+                    // Check if there are no sessions and display the message with the greeting
+                    if (length === 0) {
+                        $('#currentSessions').append(`<li class="col-span-4 h-[300px] justify-center flex flex-col text-gray-600">
+                            <span class="md:text-[100px] text-gray-300 font-semibold capitalize">${greeting}</span>
+                            <span class="text-2xl capitalize text-gray-300 font-medium">no current sessions, let's Start Adding new Session</span>
+                        </li>`);
+                    }
+
                     data.current_sessions.forEach(function(session) {
                         const checkInTime = new Date(session.check_in_time);
                         const formattedTime = checkInTime.toLocaleTimeString([], {
@@ -216,7 +225,7 @@
                 console.log("Session ID for checkout: ", sessionId); // Debugging log
 
                 if (confirm('Are you sure you want to check out?')) { // Confirmation before checkout
-                    $.post('checkout.php', {
+                    $.post('api/checkout.php', {
                         session_id: sessionId
                     }, function(response) {
                         console.log(response); // Log the response for debugging
