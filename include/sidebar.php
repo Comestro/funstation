@@ -52,9 +52,17 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Settings</span>
                 </a>
             </li>
+            <li>
+                <a href="roles.php" class="flex items-center p-2 text-white rounded-lg bg-pink-600  hover:bg-pink-800 group">
+                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Roles</span>
+                </a>
+            </li>
 
             <li>
-                <a href="#" class="flex items-center p-2 text-white rounded-lg bg-pink-600  hover:bg-pink-800 group">
+                <a href="logout.php" class="flex items-center p-2 text-white rounded-lg bg-pink-600  hover:bg-pink-800 group">
                     <svg class="w-[24px] h-[24px] " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2" />
                     </svg>

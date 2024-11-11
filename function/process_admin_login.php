@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the admin exists and password is correct
     if ($admin && password_verify($password, $admin['password'])) {
         $_SESSION['admin_id'] = $admin['id'];
-        header("Location: index.php");  // Redirect to the admin dashboard
+        header("Location: ../index.php");  // Redirect to the admin dashboard
         exit;
     } else {
         echo "Invalid username or password.";

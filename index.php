@@ -1,6 +1,6 @@
 <?php
 require_once 'config/database.php';
-// require_once 'include/login_required.php';
+require_once 'include/login_required.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
