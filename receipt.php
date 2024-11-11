@@ -172,6 +172,7 @@ if ($sessionId) {
     <a href="" class="btn btn-red" onclick="window.print()">Print Receipt</a>
     <a href="index.php" class="btn btn-green">Go Back</a>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 </body>
 </html>
