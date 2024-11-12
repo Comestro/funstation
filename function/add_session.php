@@ -5,7 +5,7 @@ require_once '../config/database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $check_in_time = $_POST['check_in_time'];
-    $assigned_hours = isset($_POST['assigned_hours']) ? (float)$_POST['assigned_hours'] : 1;
+    $assigned_hours = $_POST['assigned_hours'];
     $age = $_POST['age'];
     $contact = $_POST['contact'];
 
@@ -32,14 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Kid does not exist, insert new kid with name, age, and contact
             $stmt = $db->prepare("INSERT INTO kids (name, age, contact) VALUES (?, ?, ?)");
-            $stmt->bind_param("sis", $name, $age, $contact);
+            $stmt->bind_param("sfs", $name, $age, $contact);
             $stmt->execute();
             $kid_id = $db->insert_id;
         }
 
         // Insert the new session with check-in time, kid ID, assigned hours, and total cost
         $stmt = $db->prepare("INSERT INTO sessions (kid_id, check_in_time, assigned_hours, total_cost) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isid", $kid_id, $check_in_time, $assigned_hours, $total_cost);
+        $stmt->bind_param("isdd", $kid_id, $check_in_time, $assigned_hours, $total_cost);
         $stmt->execute();
 
         // Get the inserted session ID
