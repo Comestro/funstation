@@ -15,7 +15,7 @@
 
     <div class="form-group">
         <label for="contact" class="block text-sm font-medium text-gray-700">Contact <span class="text-red-500">*</span>:</label>
-        <input type="tel" id="contact" name="contact" placeholder="Enter contact number"
+        <input type="tel" id="contact" min="10" max="10" name="contact" placeholder="Enter contact number"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             required>
     </div>
@@ -28,11 +28,19 @@
     </div>
 
     <div class="form-group">
-        <label for="assigned_hours" class="block text-sm font-medium text-gray-700">Assigned Hours:</label>
-        <input type="number" id="assigned_hours" name="assigned_hours" min="1" max="24" placeholder="e.g 1 hour"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            <p class="text-xs  text-slate-300">By default 1 hour is assigned automatically</p>
-    </div>
+    <label for="assigned_hours" class="block text-sm font-medium text-gray-700">Assigned Hours:</label>
+    <select id="assigned_hours" name="assigned_hours"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <option value="0.5">Half hour</option>
+        <option value="1" selected>1 hour</option>
+        <option value="2">2 hours</option>
+        <option value="3">3 hours</option>
+        <option value="4">4 hours</option>
+        <option value="5">5 hours</option>
+    </select>
+    <p class="text-xs text-slate-300">By default 1 hour is assigned automatically</p>
+</div>
+
 
     <button type="submit"
         class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
