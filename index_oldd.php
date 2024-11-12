@@ -21,7 +21,7 @@ require_once 'config/database.php';
     <!-- Sidebar Toggle Button -->
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
         <span class="sr-only">Open sidebar</span>
-        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"> 
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
         </svg>
     </button>
@@ -45,10 +45,10 @@ require_once 'config/database.php';
                             </span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <a href="#ex1" rel="modal:open" class="bg-pink-600 hover:bg-pink-800 text-white px-3 py-2 ml-5 rounded shadow">Add Session</a>
+                            <a href="#ex1" rel="modal:open" class="bg-pink-600 hover:bg-pink-800 text-white px-3 py-2 rounded shadow">Add Session</a>
                             <div id="ex1" class="modal">
                                 <div class="mx-auto mt-5">
-                                    <h2 class="text-2xl font-semibold  mb-6">Add Session</h2>
+                                    <h2 class="text-2xl font-semibold mb-6">Add Session</h2>
                                     <?php include "include/insert_session_form.php"; ?>
 
                                 </div>
@@ -62,7 +62,7 @@ require_once 'config/database.php';
                             </a>
                         </div>
                     </div>
-                    <ul role="list" class="gap-3 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1" id="currentSessions"></ul>
+                    <ul role="list" class="gap-3 grid lg:grid-cols-4 grid-cols-1" id="currentSessions"></ul>
                 </div>
             </div>
         </div>
@@ -136,11 +136,11 @@ require_once 'config/database.php';
 
                         $('#currentSessions').append(`
                     <li class="shadow-md border-gray-300 border ${isTimeExceeded ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"}">
-                        <div class="flex flex-col md:flex-row items-start md:items-center">
+                        <div class="flex items-center">
                             <div class="flex-1 min-w-0">
-                                <div class="py-2 px-3 flex flex-col md:flex-row items-start md:items-center gap-3">
+                                <div class="py-2 px-3 flex items-start gap-3">
                                     <div class="flex-1 flex flex-col gap-2">
-                                        <p class="text-sm font-medium  text-gray-900 truncate dark:text-white">
+                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
                                             ${session.name}
                                         </p>
                                         <p title="${checkInTime.toLocaleString()}" class="cursor-help text-sm flex items-center gap-1 truncate">
