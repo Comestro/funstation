@@ -19,7 +19,7 @@ require_once 'config/database.php';
 
 <body class="bg-cover h-screen overflow-y-scroll ">
     <!-- Sidebar Toggle Button -->
-    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
         <span class="sr-only">Open sidebar</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
@@ -30,13 +30,13 @@ require_once 'config/database.php';
 
     <!-- Main Content -->
     <div class="p-4 sm:ml-64">
-        <div class="p-4  rounded-lg dark:border-gray-700">
+        <div class="p-4  rounded-lg">
             <div class="grid grid-cols-1 gap-4 mb-4">
                 <div class="flex flex-col gap-3">
                     <div class="flex justify-between items-center">
                         <div class="flex items-center space-x-2">
                             <!-- Realtime Sessions Header -->
-                            <h3 class="text-2xl font-bold text-slate-600">Realtime Sessions (<span id="count_session">0</span>)</h3>
+                            <h3 class="md:text-2xl font-bold text-slate-600">Realtime Sessions (<span id="count_session">0</span>)</h3>
 
                             <!-- Ping Indicator -->
                             <span class="relative flex h-3 w-3 -mt-5">
@@ -54,7 +54,7 @@ require_once 'config/database.php';
                                 </div>
                             </div>
                             <a href="index.php" class="hidden bg-white hover:bg-gray-50 border border-green-600 text-green-600 font-semibold px-3 py-2 rounded shadow md:flex items-center gap-1">
-                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4" />
                                 </svg>
                                 <span>Refresh</span>
@@ -140,7 +140,7 @@ require_once 'config/database.php';
                             <div class="flex-1 min-w-0">
                                 <div class="py-2 px-3 flex items-start gap-3">
                                     <div class="flex-1 flex flex-col gap-2">
-                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                        <p class="text-sm font-medium text-gray-900 truncate ">
                                             ${session.name}
                                         </p>
                                         <p title="${checkInTime.toLocaleString()}" class="cursor-help text-sm flex items-center gap-1 truncate">
@@ -149,25 +149,25 @@ require_once 'config/database.php';
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/>
                                             </svg> ${formattedTime} ${checkInTime.getHours() >= 12 ? 'PM' : 'AM'}
                                         </p>
-                                        <p class="text-sm truncate dark:text-gray-400">
+                                        <p class="text-sm truncate">
                                             Time Left: <span id="timer-${session.session_id}" class="font-bold"></span>
                                         </p>
                                     </div>
                                     <div class="flex flex-col gap-1 items-start text-xs font-semibold">
                                         <div class="flex items-center gap-1 px-2 py-1">
-                                            <svg class="size-[14px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
+                                            <svg class="size-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
                                             <span class="truncate">${session.assigned_hours} ${session.assigned_hours == 1 ? "hour" : "hours"}</span>
                                         </div>
                                         <div class="flex items-center gap-1 w-full hover:bg-gray-200 hover:cursor-pointer px-2 py-1">
-                                            <svg class="size-[14px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
+                                            <svg class="size-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z"/>
                                             </svg>
                                             <a href="receipt.php?session_id=${session.session_id}" class="open-receipt-modal" data-session-id="${session.session_id}" rel="modal:open">Receipt</a>
                                         </div>
                                         <div class="flex items-center truncate w-full gap-1 hover:bg-gray-200 hover:cursor-pointer px-2 py-1">
-                                            <svg class="w-[14px] h-[14px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
+                                            <svg class="w-[14px] h-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
                                             <button class="check-out-btn" data-session-id="${session.session_id}">Check-out</button>
@@ -175,7 +175,7 @@ require_once 'config/database.php';
                                     </div>
                                 </div>
                                 <!-- Progress bar -->
-                                <div class="w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700 mt-2">
+                                <div class="w-full bg-gray-200 rounded-full h-1  mt-2">
                                     <div class="${isTimeExceeded ? "bg-red-600" : "bg-green-600"} h-1 rounded-full" id="progress-bar-${session.session_id}" style="width: 100%"></div>
                                 </div>
                             </div>
