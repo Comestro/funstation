@@ -29,14 +29,14 @@
     <div class="p-4 md:h-screen  sm:ml-64">
         <div class="p-4 rounded-lg dark:border-gray-700">
             <div class="grid grid-cols-1 gap-4 mb-4">
-                <div class="flex md:flex-row flex-col md:justify-between nd:items-center ">
+                <div class="flex md:flex-row flex-col md:justify-between md:items-center ">
                     <h3 class="text-xl font-semibold md:mb-0 mb-4">Checkout Sessions</h3>
-                    <div class="flex md:items-center md:flex-row justify-between  gap-2">
+                    <div class="flex flex-col md:items-center md:flex-row justify-between  gap-2">
                       
                         <!-- search work -->
                         <div class="flex">
-                            <input type="text" id="searchTerm" placeholder="Search by Kid's Name" class="border rounded-s-lg border-gray-300 px-2 py-1" />
-                            <button id="searchBtn" class="bg-blue-500 text-white px-2 py-1 rounded-e-lg">Search</button>
+                            <input type="text" id="searchTerm" placeholder="Search by Kid's Name" class="border rounded-s-lg border-gray-300 px-2 py-1 w-full sm:w-auto" />
+                            <button id="searchBtn" class="bg-blue-500 text-white px-2 py-2 rounded-e-lg">Search</button>
                         </div>
                         <!-- filter work -->
                         <select id="dateFilter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2">
