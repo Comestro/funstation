@@ -5,9 +5,15 @@ require_once '../config/database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $check_in_time = $_POST['check_in_time'];
-    $assigned_hours = isset($_POST['assigned_hours']) ? (int)$_POST['assigned_hours'] : 1;
+    $assigned_hours = isset($_POST['assigned_hours']) ? (float)$_POST['assigned_hours'] : 1;
     $age = $_POST['age'];
     $contact = $_POST['contact'];
+
+    // Assume hourly_rate is fetched from your settings
+    $hourly_rate = 500; // e.g., you can retrieve this from the settings table
+
+    // Calculate the total cost
+    $total_cost = ($assigned_hours == 0.5) ? $hourly_rate * 0.6 : $hourly_rate * $assigned_hours;
 
     // Start a transaction
     $db->begin_transaction();
@@ -31,9 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $kid_id = $db->insert_id;
         }
 
-        // Insert the new session with check-in time, kid ID, and assigned hours
-        $stmt = $db->prepare("INSERT INTO sessions (kid_id, check_in_time, assigned_hours) VALUES (?, ?, ?)");
-        $stmt->bind_param("isi", $kid_id, $check_in_time, $assigned_hours);
+        // Insert the new session with check-in time, kid ID, assigned hours, and total cost
+        $stmt = $db->prepare("INSERT INTO sessions (kid_id, check_in_time, assigned_hours, total_cost) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("isid", $kid_id, $check_in_time, $assigned_hours, $total_cost);
         $stmt->execute();
 
         // Get the inserted session ID

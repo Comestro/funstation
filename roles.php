@@ -57,7 +57,7 @@ $result = $db->query($query);
     <!-- Main Content -->
     <div class="p-4 sm:ml-64">
         <div class="p-4 rounded-lg dark:border-gray-700">
-            <h2 class="text-2xl font-bold mb-4">Manage Admin Signup and Records</h2>
+            <h2 class="md:text-2xl font-bold mb-4">Manage Admin Signup and Records</h2>
 
             <!-- Parallel Grid Layout -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">

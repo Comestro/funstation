@@ -22,19 +22,20 @@ $sessionId = $_GET['session_id'] ?? null;
 if ($sessionId) {
     // Fetch session and kid details from the database
     $stmt = $db->prepare("SELECT s.*, k.name FROM sessions s JOIN kids k ON s.kid_id = k.id WHERE s.id = ?");
-    $stmt->bind_param("i", $sessionId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $session = $result->fetch_assoc();
+$stmt->bind_param("i", $sessionId);
+$stmt->execute();
+$result = $stmt->get_result();
+$session = $result->fetch_assoc();
 
-    if ($session) {
-        $assignedHours = $session['assigned_hours'];
-        $totalAmountInclusive = $assignedHours * $hourlyRateInclusive;
+if ($session) {
+    $assignedHours = $session['assigned_hours'];
+    $totalAmountInclusive = $session['total_cost']; // Retrieve stored total cost
 
-        // Calculate base amount and GST from the inclusive total
-        $baseAmount = $totalAmountInclusive / (1 + $gstRate);
-        $gstAmount = $totalAmountInclusive - $baseAmount;
-    } else {
+    // Calculate base amount and GST from the inclusive total
+    $baseAmount = $totalAmountInclusive / (1 + $gstRate);
+    $gstAmount = $totalAmountInclusive - $baseAmount;
+}
+ else {
         echo "Session not found.";
         exit();
     }
@@ -139,7 +140,7 @@ if ($sessionId) {
     <div>
         <p><strong>Customer:</strong> <?= htmlspecialchars($session['name']) ?></p>
         <p><strong>Check-In Time:</strong> <br> <?= $session['check_in_time'] ?></p>
-        <p><strong>Assigned Hours:</strong> <?= $assignedHours ?> Hours</p>
+        <p><strong>Assigned Hours:</strong> <?= ($assignedHours == 0.5) ? '1/2' : $assignedHours ?> Hours</p>
     </div>
 
     <!-- Billing Section -->
