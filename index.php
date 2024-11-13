@@ -164,7 +164,7 @@ require_once 'config/database.php';
                                             <svg class="size-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z"/>
                                             </svg>
-                                            <a href="receipt.php?session_id=${session.session_id}" class="open-receipt-modal" data-session-id="${session.session_id}" rel="modal:open">Receipt</a>
+                                            <a href="receipt.php?session_id=${session.session_id}">Receipt</a>
                                         </div>
                                         <div class="flex items-center truncate w-full gap-1 hover:bg-gray-200 hover:cursor-pointer px-2 py-1">
                                             <svg class="w-[14px] h-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
