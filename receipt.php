@@ -12,9 +12,12 @@ $businessName = $settings['business_name'] ?? 'Kids FunStation';
 $businessEmail = $settings['email'] ?? 'info@gamezone.com';
 $businessContact = $settings['contact'] ?? '9608297530, 82944913382';
 $hourlyRateInclusive = $settings['hourly_charge'] ?? 250; // Default to 250 if not set
+$gstNo = $settings['gst'] ?? "10CNCPA1183R1Z6"; // Default to 250 if not set
 $businessAddress = $settings['address'] ?? 'Panorama Rameshwaram, 1<sup>st</sup> floor, <br> Near Tanishq Showroom, Line Bazaar, Purnea, Bihar (854301)';
 
-$gstRate = 0.18; // 18% GST
+$gstRate = 0.28; // 28% GST
+$cgstRate = $gstRate / 2; // 14% CGST
+$sgstRate = $gstRate / 2; // 14% SGST
 
 // Get session_id from URL
 $sessionId = $_GET['session_id'] ?? null;
@@ -31,9 +34,11 @@ if ($sessionId) {
         $assignedHours = $session['assigned_hours'];
         $totalAmountInclusive = $session['total_cost']; // Retrieve stored total cost
 
-        // Calculate base amount and GST from the inclusive total
+        // Calculate base amount and GST components from the inclusive total
         $baseAmount = $totalAmountInclusive / (1 + $gstRate);
-        $gstAmount = $totalAmountInclusive - $baseAmount;
+        $totalGstAmount = $totalAmountInclusive - $baseAmount;
+        $cgstAmount = $baseAmount * $cgstRate;
+        $sgstAmount = $baseAmount * $sgstRate;
     } else {
         echo "Session not found.";
         exit();
@@ -48,11 +53,15 @@ if ($sessionId) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bill Generated | <?php echo htmlspecialchars($title); ?></title>
+    <title>Bill Generated | <?php echo htmlspecialchars($businessName); ?></title>
     <style>
         /* Thermal Printer Style */
+        strong {
+            font-weight: 400;
+        }
         body {
-            font-family: 'Courier New', Courier, monospace;
+            /* font-family:sans-serif; */
+            font-family: 'Times New Roman', Times, serif;
             width: 80mm;
             margin: 0 auto;
             font-size: 14px;
@@ -78,6 +87,7 @@ if ($sessionId) {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
+            font-size: 12px;
         }
 
         .total {
@@ -85,16 +95,14 @@ if ($sessionId) {
         }
 
         .footer {
-            font-size: 10px;
+            font-size: 14px;
+            font-family: sans-serif;
             margin-top: 20px;
             text-align: center;
             border-top: 1px dashed #333;
             padding-top: 10px;
         }
-        .heading{
-            font-size: 18px;
-        }
-        .btn{
+        .btn {
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
@@ -102,17 +110,17 @@ if ($sessionId) {
             border: none;
             cursor: pointer;
         }
-        .btn-container{
+        .btn-container {
             display: flex;
             justify-content: center;
             margin-top: 10px;
             gap: 5px;
         }
-        .btn-red{
+        .btn-red {
             background-color: hotpink;
             font-family: sans-serif;
         }
-        .btn-green{
+        .btn-green {
             background-color: teal;
             font-family: sans-serif;
         }
@@ -140,16 +148,17 @@ if ($sessionId) {
     <div class="receipt-header">
         <p class="center">
             <strong class="heading"><?= htmlspecialchars($businessName) ?></strong><br>
-            <?= htmlspecialchars($businessAddress);?><br><br>
+            <?= htmlspecialchars($businessAddress); ?><br>
+            GST No: <?= htmlspecialchars($gstNo); ?><br><br>
             Phone: <?= htmlspecialchars($businessContact) ?><br>
-            Email: <?= htmlspecialchars($businessEmail) ?>
+            <?= htmlspecialchars($businessEmail) ?> <br>
         </p>
     </div>
 
     <!-- Customer & Session Details -->
     <div>
         <p><strong>Customer:</strong> <?= htmlspecialchars($session['name']) ?></p>
-        <p><strong>Check-In Time:</strong> <br> <?= $session['check_in_time'] ?></p>
+        <p><strong>Check-In Time:</strong> <br> <?= date("h:i A - d/m/Y", strtotime($session['check_in_time'])) ?></p>
         <p><strong>Assigned Hours:</strong> <?= ($assignedHours == 0.5) ? '1/2' : $assignedHours ?> Hours</p>
     </div>
 
@@ -161,8 +170,12 @@ if ($sessionId) {
             <span>₹<?= number_format($baseAmount, 2) ?></span>
         </div>
         <div class="line-item">
-            <span>GST (<?= $gstRate * 100 ?>%)</span>
-            <span>₹<?= number_format($gstAmount, 2) ?></span>
+            <span>CGST (<?= $cgstRate * 100 ?>%)</span>
+            <span>₹<?= number_format($cgstAmount, 2) ?></span>
+        </div>
+        <div class="line-item">
+            <span>SGST (<?= $sgstRate * 100 ?>%)</span>
+            <span>₹<?= number_format($sgstAmount, 2) ?></span>
         </div>
 
         <!-- Total -->
@@ -178,7 +191,6 @@ if ($sessionId) {
         <p>Visit Again!</p>
     </div>
 </div>
-<br>
 <div class="btn-container">
     <a href="" class="btn btn-red" onclick="window.print()">Print Receipt</a>
     <a href="index.php" class="btn btn-green">Go Back</a>

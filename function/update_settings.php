@@ -11,7 +11,7 @@ $result = $db->query($query);
 
 if ($result->num_rows === 0) {
     // Insert default settings row if it doesn't exist
-    $stmt = $db->prepare("INSERT INTO settings (id, hourly_charge, contact, business_name, address, logo, email, password) VALUES (1, 0, '', '', '', '', '', '')");
+    $stmt = $db->prepare("INSERT INTO settings (id, hourly_charge, contact, business_name, address, logo, email, password, gst) VALUES (1, 0, '', '', '', '', '', '', null)");
     $stmt->execute();
 }
 
@@ -21,8 +21,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['hourly_charge'])) {
         $hourly_charge = floatval($_POST['hourly_charge']);
         $stmt = $db->prepare("UPDATE settings SET hourly_charge = ? WHERE id = 1");
-        if (!$stmt->execute([$hourly_charge])) {
+        $stmt->bind_param("d", $hourly_charge);
+        if (!$stmt->execute()) {
             $errors[] = "Failed to update hourly charge.";
+        }
+    }
+
+    // Update GST
+    if (isset($_POST['gst'])) {
+         $gst = $_POST['gst'];
+        $stmt = $db->prepare("UPDATE settings SET gst = ? WHERE id = 1");
+        $stmt->bind_param("s", $gst);
+        if (!$stmt->execute()) {
+            $errors[] = "Failed to update GST.";
         }
     }
 
@@ -30,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['contact'])) {
         $contact = htmlspecialchars($_POST['contact']);
         $stmt = $db->prepare("UPDATE settings SET contact = ? WHERE id = 1");
-        if (!$stmt->execute([$contact])) {
+        $stmt->bind_param("s", $contact);
+        if (!$stmt->execute()) {
             $errors[] = "Failed to update contact.";
         }
     }
@@ -39,7 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['business_name'])) {
         $business_name = htmlspecialchars($_POST['business_name']);
         $stmt = $db->prepare("UPDATE settings SET business_name = ? WHERE id = 1");
-        if (!$stmt->execute([$business_name])) {
+        $stmt->bind_param("s", $business_name);
+        if (!$stmt->execute()) {
             $errors[] = "Failed to update business name.";
         }
     }
@@ -48,7 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['address'])) {
         $address = htmlspecialchars($_POST['address']);
         $stmt = $db->prepare("UPDATE settings SET address = ? WHERE id = 1");
-        if (!$stmt->execute([$address])) {
+        $stmt->bind_param("s", $address);
+        if (!$stmt->execute()) {
             $errors[] = "Failed to update address.";
         }
     }
@@ -58,7 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
         if ($email) {
             $stmt = $db->prepare("UPDATE settings SET email = ? WHERE id = 1");
-            if (!$stmt->execute([$email])) {
+            $stmt->bind_param("s", $email);
+            if (!$stmt->execute()) {
                 $errors[] = "Failed to update email.";
             }
         } else {
@@ -70,7 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['password']) && !empty($_POST['password'])) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $stmt = $db->prepare("UPDATE settings SET password = ? WHERE id = 1");
-        if (!$stmt->execute([$password])) {
+        $stmt->bind_param("s", $password);
+        if (!$stmt->execute()) {
             $errors[] = "Failed to update password.";
         }
     }
@@ -88,3 +104,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: ../settings.php");
     exit();
 }
+?>
