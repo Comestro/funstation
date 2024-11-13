@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Kid does not exist, insert new kid with name, age, and contact
             $stmt = $db->prepare("INSERT INTO kids (name, age, contact) VALUES (?, ?, ?)");
-            $stmt->bind_param("sfs", $name, $age, $contact);
+            $stmt->bind_param("sds", $name, $age, $contact);
             $stmt->execute();
             $kid_id = $db->insert_id;
         }
