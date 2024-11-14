@@ -3,7 +3,7 @@ session_start();
 include 'config/database.php'; // Include database connection
 
 // Fetch business information and hourly rate from the settings table
-$settingsQuery = "SELECT business_name, email, contact, hourly_charge, address FROM settings LIMIT 1";
+$settingsQuery = "SELECT business_name, email, contact, hourly_charge, address, gst FROM settings LIMIT 1";
 $settingsResult = $db->query($settingsQuery);
 $settings = $settingsResult->fetch_assoc();
 
@@ -11,13 +11,13 @@ $settings = $settingsResult->fetch_assoc();
 $businessName = $settings['business_name'] ?? 'Kids FunStation';
 $businessEmail = $settings['email'] ?? 'info@gamezone.com';
 $businessContact = $settings['contact'] ?? '9608297530, 82944913382';
-$hourlyRateInclusive = $settings['hourly_charge'] ?? 250; // Default to 250 if not set
-$gstNo = $settings['gst'] ?? "10CNCPA1183R1Z6"; // Default to 250 if not set
+$hourlyRateInclusive = $settings['hourly_charge'] ?? 250;
+$gstNo = $settings['gst'] ?? "10CNCPA1183R1Z6";
 $businessAddress = $settings['address'] ?? 'Panorama Rameshwaram, 1<sup>st</sup> floor, <br> Near Tanishq Showroom, Line Bazaar, Purnea, Bihar (854301)';
 
-$gstRate = 0.28; // 28% GST
-$cgstRate = $gstRate / 2; // 14% CGST
-$sgstRate = $gstRate / 2; // 14% SGST
+$gstRate = 0.28;
+$cgstRate = $gstRate / 2;
+$sgstRate = $gstRate / 2;
 
 // Get session_id from URL
 $sessionId = $_GET['session_id'] ?? null;
@@ -32,13 +32,31 @@ if ($sessionId) {
 
     if ($session) {
         $assignedHours = $session['assigned_hours'];
-        $totalAmountInclusive = $session['total_cost']; // Retrieve stored total cost
+        $totalAmountInclusive = $session['total_cost'];
 
         // Calculate base amount and GST components from the inclusive total
         $baseAmount = $totalAmountInclusive / (1 + $gstRate);
         $totalGstAmount = $totalAmountInclusive - $baseAmount;
         $cgstAmount = $baseAmount * $cgstRate;
         $sgstAmount = $baseAmount * $sgstRate;
+
+        // Check for an active offer
+        $today = date('Y-m-d');
+        $offerQuery = "SELECT * FROM offers WHERE is_active = 1 AND start_date <= ? AND end_date >= ? LIMIT 1";
+        $stmt = $db->prepare($offerQuery);
+        $stmt->bind_param("ss", $today, $today);
+        $stmt->execute();
+        $offerResult = $stmt->get_result();
+
+        if ($offer = $offerResult->fetch_assoc()) {
+            $discount = $offer['discount_percentage'] / 100;
+            $discountAmount = $totalAmountInclusive * $discount;
+            $totalAmountInclusive -= $discountAmount;
+            $baseAmount = $totalAmountInclusive / (1 + $gstRate); // Recalculate base amount with discount
+            $totalGstAmount = $totalAmountInclusive - $baseAmount;
+            $cgstAmount = $baseAmount * $cgstRate;
+            $sgstAmount = $baseAmount * $sgstRate;
+        }
     } else {
         echo "Session not found.";
         exit();
@@ -177,6 +195,13 @@ if ($sessionId) {
             <span>SGST (<?= $sgstRate * 100 ?>%)</span>
             <span>₹<?= number_format($sgstAmount, 2) ?></span>
         </div>
+
+        <?php if (isset($discountAmount)): ?>
+        <div class="line-item">
+            <span>Discount (<?= htmlspecialchars($offer['discount_percentage']); ?>%)</span>
+            <span>-₹<?= number_format($discountAmount, 2) ?></span>
+        </div>
+        <?php endif; ?>
 
         <!-- Total -->
         <div class="line-item total">
