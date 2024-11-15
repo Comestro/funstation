@@ -38,7 +38,7 @@
         <option value="4">4 hours</option>
         <option value="5">5 hours</option>
     </select>
-    <p class="text-xs text-slate-300">By default 1 hour is assigned automatically</p>
+    <p class="text-xs text-slate-400">By default 1 hour is assigned automatically</p>
 </div>
 
 

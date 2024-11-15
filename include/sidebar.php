@@ -1,5 +1,5 @@
 <aside id="logo-sidebar" class="fixed top-0 md:bg-transparent bg-gray-100  left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto border-r">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gradient-to-b from-transparent to-white via-transparent border-r">
         <a href="" class="flex items-center ps-2.5 mb-5">
             <img src="images/logo.png" class="w-full me-3" alt="Flowbite Logo" />
         </a>
@@ -83,9 +83,9 @@
         </ul>
         
     </div>
-    <div class="flex flex-col items-center justify-center fixed bottom-0 left-16 px-2 py-2">
+    <div class="flex flex-col items-center justify-center fixed bottom-0 left-12 px-2 py-2">
         <p class="text-center text-gray-600 text-xs mb-1">Powered By</p>
-        <img src="images/comestro_logo.png" alt="Comestro Logo" class=" h-7 object-contain">
+        <img src="images/comestro_logo.png" alt="Comestro Logo" class=" h-9 object-contain">
     </div>
 
 </aside>

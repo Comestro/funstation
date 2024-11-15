@@ -65,15 +65,16 @@
                 </div>
                 <button type="submit" class="w-full p-2 login-button rounded-md">Login</button>
             </form>
-        </div>
-    </div>
-    <div class="absolute right-0 bottom-0 ">
+            <div class="mt-3">
         <div class="flex flex-col items-center justify-center mt-[120px]">
-            <p class="text-center text-white text-xs">Powerded By </p>
-            <img src="images/comestro_logo(2).png"
-            alt="Comestro Logo" class="  rounded-full h-7 object-content ">
+            <p class="text-center text-gray-600 text-xs font-semibold mb-2">Powered By </p>
+            <a href="https://www.comestro.com" target="_blank"><img src="images/comestro_logo.png"
+            alt="Comestro Logo" class=" h-9 object-content "></a>
         </div>
     </div>
+        </div>
+    </div>
+   
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 </body>
