@@ -18,6 +18,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            padding:10px;
         }
 
         .login-card {
@@ -48,8 +49,8 @@
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="login-card p-5">
+    <div class="login-container p-5">
+        <div class="login-card ">
             <img src="images/logo.png" alt="Logo" class="logo">
             <form action="function/process_admin_login.php" method="POST">
                 <div class="mb-4">
