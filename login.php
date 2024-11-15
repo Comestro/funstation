@@ -49,7 +49,9 @@
 </head>
 
 <body>
+
     <div class="login-container p-5">
+   
         <div class="login-card ">
             <img src="images/logo.png" alt="Logo" class="logo">
             <form action="function/process_admin_login.php" method="POST">
@@ -63,6 +65,13 @@
                 </div>
                 <button type="submit" class="w-full p-2 login-button rounded-md">Login</button>
             </form>
+        </div>
+    </div>
+    <div class="absolute right-0 bottom-0 ">
+        <div class="flex flex-col items-center justify-center mt-[120px]">
+            <p class="text-center text-white text-xs">Powerded By </p>
+            <img src="images/comestro_logo(2).png"
+            alt="Comestro Logo" class="  rounded-full h-7 object-content ">
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
