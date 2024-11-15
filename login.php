@@ -31,9 +31,7 @@
         .logo {
             width: 300px; /* Adjust logo size */
             margin: 0 auto 1rem auto;
-        }
-
-        
+        }        
 
         .login-button {
             background-color: #3b82f6; /* Tailwind blue */
