@@ -83,9 +83,9 @@
         </ul>
         
     </div>
-    <div class="flex flex-col items-center justify-center fixed bottom-0 px-2 py-2">
+    <div class="flex flex-col items-center justify-center fixed bottom-0 left-16 px-2 py-2">
         <p class="text-center text-gray-600 text-xs mb-1">Powered By</p>
-        <img src="images/comestro_logo.png" alt="Comestro Logo" class="rounded-full h-7 object-contain">
+        <img src="images/comestro_logo.png" alt="Comestro Logo" class=" h-7 object-contain">
     </div>
 
 </aside>
