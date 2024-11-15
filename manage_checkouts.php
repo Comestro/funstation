@@ -1,4 +1,8 @@
-<?php include_once "config/database.php"; ?>
+<?php include_once "config/database.php"; 
+
+require_once 'include/login_required.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

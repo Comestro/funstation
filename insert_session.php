@@ -1,4 +1,9 @@
-<?php include_once "config/database.php";?>
+<?php 
+
+include_once "config/database.php";
+require_once 'include/login_required.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +29,6 @@
     </button>
 
     <?php include_once "include/sidebar.php"; ?>
-
     <div class="p-4 h-screen sm:ml-64">
         <div class="p-4  w-full rounded-lg dark:border-gray-700">
             <div class="mx-auto mt-5 md:w-1/2">

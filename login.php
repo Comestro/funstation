@@ -51,7 +51,7 @@
 
 <body>
     <div class="login-container">
-        <div class="login-card">
+        <div class="login-card p-5">
             <img src="images/logo.png" alt="Logo" class="logo">
             <form action="function/process_admin_login.php" method="POST">
                 <div class="mb-4">
