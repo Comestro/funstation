@@ -81,10 +81,11 @@
             </li>
 
         </ul>
-        <div class="flex flex-col items-center justify-center mt-[135px]">
-        <p class="text-center text-gray-600 text-xs">Powerded By </p>
-        <img src="images/comestro_logo.png"
-        alt="Comestro Logo" class="  rounded-full h-7 object-content ">
-        </div>
+        
     </div>
+    <div class="flex flex-col items-center justify-center fixed bottom-0 px-2 py-2">
+        <p class="text-center text-gray-600 text-xs mb-1">Powered By</p>
+        <img src="images/comestro_logo.png" alt="Comestro Logo" class="rounded-full h-7 object-contain">
+    </div>
+
 </aside>
