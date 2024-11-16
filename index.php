@@ -123,8 +123,8 @@ require_once 'include/login_required.php';
                     // Check if there are no sessions and display the message with the greeting
                     if (length === 0) {
                         $('#currentSessions').append(`<li class="col-span-4 h-[300px] justify-center flex flex-col text-gray-600">
-                            <span class="md:text-[100px] text-gray-300 font-semibold capitalize">${greeting}</span>
-                            <span class="text-2xl capitalize text-gray-300 font-medium">no current sessions, let's Start Adding new Session</span>
+                            <span class="md:text-[100px] text-[50px] text-gray-300 font-semibold capitalize">${greeting}</span>
+                            <span class="md:text-2xl capitalize text-gray-300 font-medium">no current sessions, let's Start Adding new Session</span>
                         </li>`);
                     }
 
