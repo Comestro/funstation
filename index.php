@@ -141,7 +141,7 @@ require_once 'include/login_required.php';
                     <li class="w-full shadow-md border-gray-300 border bg-green-100 text-green-800"}">
                      
                         <div class="flex flex-col md:flex-row items-start md:items-center">
-                            <div class="flex-1 min-w-0">
+                            <div class="flex-1 w-full">
                                 <div class="p-2 flex flex-col md:flex-row items-start md:items-center gap-3">
                                     <div class="flex-1 flex flex-col gap-2">
                                         <p class="text-sm font-medium  text-gray-900 truncate ">
