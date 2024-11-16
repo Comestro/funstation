@@ -15,7 +15,7 @@
 
     <div class="form-group">
         <label for="contact" class="block text-sm font-medium text-gray-700">Contact <span class="text-red-500">*</span>:</label>
-        <input type="number" id="contact" min="10" max="10" name="contact" placeholder="Enter contact number"
+        <input type="number" id="contact" name="contact" placeholder="Enter contact number"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             required>
     </div>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="flex items-center space-x-3">
-        <input type="checkbox" id="gst" name="include_gst" value="0" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+        <input type="checkbox" id="gst" name="include_gst" value="1" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
         <label for="gst" class="block text-sm font-medium text-gray-700">
             Include GST
         </label>
@@ -51,11 +51,23 @@
         Check this box if GST should be applied to the bill.
     </p>
 
-
-
-
     <button type="submit"
         class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Add Session
     </button>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const contactInput = document.getElementById("contact");
+
+    // Limit the input to 10 digits
+    contactInput.addEventListener("input", function () {
+        let value = contactInput.value;
+
+        // Remove any non-digit characters and limit the length to 10 digits
+        contactInput.value = value.replace(/\D/g, '').slice(0, 10);
+    });
+});
+
+</script>
