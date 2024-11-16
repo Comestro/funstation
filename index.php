@@ -28,7 +28,7 @@ require_once 'include/login_required.php';
 
 
     <div class="p-4 sm:ml-64">
-        <div class="p-4 rounded-lg">
+        <div class="md:p-4 rounded-lg">
             <div class="grid grid-cols-1 gap-4 mb-4">
                 <div class="flex flex-col gap-3">
                     <div class="flex justify-between items-center">
