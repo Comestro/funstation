@@ -47,6 +47,8 @@ $currentOffer = $result->fetch_assoc();
 </head>
 
 <body class="bg-cover h-screen overflow-y-scroll">
+<?php include_once "include/header.php"; ?>
+
     <?php include_once "include/sidebar.php"; ?>
 
     <div class="p-4 sm:ml-64">
