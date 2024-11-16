@@ -143,7 +143,7 @@ require_once 'include/login_required.php';
                         <div class="flex flex-col md:flex-row items-start md:items-center">
                             <div class="flex-1 w-full">
                                 <div class="p-2 flex flex-col md:flex-row items-start md:items-center gap-3">
-                                    <div class="flex-1 flex flex-col gap-2">
+                                    <div class="flex-1 w-full flex flex-col gap-2">
                                         <p class="text-sm font-medium  text-gray-900 truncate ">
                                             ${session.name}
                                         </p>
@@ -156,7 +156,7 @@ require_once 'include/login_required.php';
                                         <p class="text-sm truncate">
                                             Time Left: <span id="timer-${session.session_id}" class="font-bold"></span>
                                         </p>
-                                         <div class="flex flex-row gap-1  text-xs font-semibold">
+                                         <div class="flex justify-between flex-row gap-1  text-xs font-semibold">
                                         <div class="flex justify-center items-center gap-1 w-full py-1">
                                             <svg class="size-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
