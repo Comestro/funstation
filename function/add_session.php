@@ -8,9 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assigned_hours = $_POST['assigned_hours'];
     $age = $_POST['age'];
     $contact = $_POST['contact'];
+    $include_gst = $_POST['include_gst'];
+
+    $settingsQuery = "SELECT business_name, email, contact, hourly_charge, address, gst FROM settings LIMIT 1";
+    $settingsResult = $db->query($settingsQuery);
+    $settings = $settingsResult->fetch_assoc();
 
     // Assume hourly_rate is fetched from your settings
-    $hourly_rate = 500; // e.g., you can retrieve this from the settings table
+    $hourly_rate = $settings['hourly_charge']; // e.g., you can retrieve this from the settings table
 
     // Calculate the total cost
     $total_cost = ($assigned_hours == 0.5) ? $hourly_rate * 0.6 : $hourly_rate * $assigned_hours;
@@ -38,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Insert the new session with check-in time, kid ID, assigned hours, and total cost
-        $stmt = $db->prepare("INSERT INTO sessions (kid_id, check_in_time, assigned_hours, total_cost) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isdd", $kid_id, $check_in_time, $assigned_hours, $total_cost);
+        $stmt = $db->prepare("INSERT INTO sessions (kid_id, check_in_time, assigned_hours, total_cost, include_gst) VALUES (?, ?, ?, ?,?)");
+        $stmt->bind_param("isddd", $kid_id, $check_in_time, $assigned_hours, $total_cost, $include_gst);
         $stmt->execute();
 
         // Get the inserted session ID

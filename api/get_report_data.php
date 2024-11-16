@@ -1,7 +1,7 @@
 <?php
 require '../config/database.php'; // Ensure this connects to your database
 
-// Define your hourly rate for calculating revenue
+// Define your hourly rate for calculating revenue (if needed)
 $hourlyRate = 250; // Adjust the rate as needed
 
 // Initialize arrays for labels and data
@@ -27,11 +27,11 @@ for ($i = 5; $i >= 0; $i--) {
     $month = date('Y-m', strtotime("-$i months"));
     $revenue['labels'][] = date('F', strtotime($month)); // Month name
 
-    // Calculate revenue for each month
-    $revenueQuery = "SELECT SUM(TIMESTAMPDIFF(HOUR, check_in_time, check_out_time) * $hourlyRate) AS monthly_revenue
+    // Calculate revenue for each month using total_cost
+    $revenueQuery = "SELECT SUM(total_cost) AS monthly_revenue
                      FROM sessions
                      WHERE DATE_FORMAT(check_in_time, '%Y-%m') = '$month'
-                     AND check_out_time IS NOT NULL"; // Only completed sessions
+                     AND total_cost IS NOT NULL"; // Only sessions with a valid total_cost
     $revenueResult = $db->query($revenueQuery);
     $revenueData = $revenueResult->fetch_assoc();
     $revenue['data'][] = (int) $revenueData['monthly_revenue'];

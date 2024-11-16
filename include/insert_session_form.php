@@ -15,7 +15,7 @@
 
     <div class="form-group">
         <label for="contact" class="block text-sm font-medium text-gray-700">Contact <span class="text-red-500">*</span>:</label>
-        <input type="tel" id="contact" min="10" max="10" name="contact" placeholder="Enter contact number"
+        <input type="number" id="contact" min="10" max="10" name="contact" placeholder="Enter contact number"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             required>
     </div>
@@ -28,18 +28,30 @@
     </div>
 
     <div class="form-group">
-    <label for="assigned_hours" class="block text-sm font-medium text-gray-700">Assigned Hours:</label>
-    <select id="assigned_hours" name="assigned_hours"
-        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <option value="0.5">Half hour</option>
-        <option value="1" selected>1 hour</option>
-        <option value="2">2 hours</option>
-        <option value="3">3 hours</option>
-        <option value="4">4 hours</option>
-        <option value="5">5 hours</option>
-    </select>
-    <p class="text-xs text-slate-400">By default 1 hour is assigned automatically</p>
-</div>
+        <label for="assigned_hours" class="block text-sm font-medium text-gray-700">Assigned Hours:</label>
+        <select id="assigned_hours" name="assigned_hours"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option value="0.5">Half hour</option>
+            <option value="1" selected>1 hour</option>
+            <option value="2">2 hours</option>
+            <option value="3">3 hours</option>
+            <option value="4">4 hours</option>
+            <option value="5">5 hours</option>
+        </select>
+        <p class="text-xs text-slate-400">By default 1 hour is assigned automatically</p>
+    </div>
+
+    <div class="flex items-center space-x-3">
+        <input type="checkbox" id="gst" name="include_gst" value="0" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+        <label for="gst" class="block text-sm font-medium text-gray-700">
+            Include GST
+        </label>
+    </div>
+    <p class="mt-1 text-xs text-gray-500">
+        Check this box if GST should be applied to the bill.
+    </p>
+
+
 
 
     <button type="submit"

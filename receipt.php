@@ -15,7 +15,7 @@ $hourlyRateInclusive = $settings['hourly_charge'] ?? 250;
 $gstNo = $settings['gst'] ?? "10CNCPA1183R1Z6";
 $businessAddress = $settings['address'] ?? 'Panorama Rameshwaram, 1<sup>st</sup> floor, <br> Near Tanishq Showroom, Line Bazaar, Purnea, Bihar (854301)';
 
-$gstRate = 0.28;
+$gstRate = 0.18;
 $cgstRate = $gstRate / 2;
 $sgstRate = $gstRate / 2;
 
@@ -33,12 +33,7 @@ if ($sessionId) {
     if ($session) {
         $assignedHours = $session['assigned_hours'];
         $totalAmountInclusive = $session['total_cost'];
-
-        // Calculate base amount and GST components from the inclusive total
-        $baseAmount = $totalAmountInclusive / (1 + $gstRate);
-        $totalGstAmount = $totalAmountInclusive - $baseAmount;
-        $cgstAmount = $baseAmount * $cgstRate;
-        $sgstAmount = $baseAmount * $sgstRate;
+        $includeGst = $session['include_gst'] ?? false;
 
         // Check for an active offer
         $today = date('Y-m-d');
@@ -57,6 +52,14 @@ if ($sessionId) {
             $cgstAmount = $baseAmount * $cgstRate;
             $sgstAmount = $baseAmount * $sgstRate;
         }
+
+        if ($includeGst) {
+            // Calculate base amount and GST components from the inclusive total
+            $baseAmount = $totalAmountInclusive / (1 + $gstRate);
+            $totalGstAmount = $totalAmountInclusive - $baseAmount;
+            $cgstAmount = $baseAmount * $cgstRate;
+            $sgstAmount = $baseAmount * $sgstRate;
+        }
     } else {
         echo "Session not found.";
         exit();
@@ -71,14 +74,12 @@ if ($sessionId) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Bill Generated | <?php echo htmlspecialchars($businessName); ?></title>
     <style>
         /* Thermal Printer Style */
-        strong {
-            font-weight: 400;
-        }
         body {
-            /* font-family:sans-serif; */
             font-family: 'Times New Roman', Times, serif;
             width: 80mm;
             margin: 0 auto;
@@ -96,11 +97,6 @@ if ($sessionId) {
             text-align: center;
         }
 
-        .receipt-header, .receipt-footer {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
         .line-item {
             display: flex;
             justify-content: space-between;
@@ -113,12 +109,16 @@ if ($sessionId) {
         }
 
         .footer {
-            font-size: 14px;
-            font-family: sans-serif;
             margin-top: 20px;
             text-align: center;
             border-top: 1px dashed #333;
             padding-top: 10px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            gap: 5px;
         }
         .btn {
             padding: 10px 20px;
@@ -128,19 +128,11 @@ if ($sessionId) {
             border: none;
             cursor: pointer;
         }
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-            gap: 5px;
-        }
         .btn-red {
             background-color: hotpink;
-            font-family: sans-serif;
         }
         .btn-green {
             background-color: teal;
-            font-family: sans-serif;
         }
         @media print {
             body * {
@@ -148,11 +140,6 @@ if ($sessionId) {
             }
             .receipt-container, .receipt-container * {
                 visibility: visible;
-            }
-            .receipt-container {
-                position: absolute;
-                left: 0;
-                top: 0;
             }
             .btn {
                 display: none;
@@ -163,38 +150,41 @@ if ($sessionId) {
 <body>
 <div class="receipt-container">
     <!-- Header Section -->
-    <div class="receipt-header">
-        <p class="center">
-            <strong class="heading"><?= htmlspecialchars($businessName) ?></strong><br>
-            <?= htmlspecialchars($businessAddress); ?><br>
-            GST No: <?= htmlspecialchars($gstNo); ?><br><br>
-            Phone: <?= htmlspecialchars($businessContact) ?><br>
-            <?= htmlspecialchars($businessEmail) ?> <br>
-        </p>
+    <div class="center">
+        <strong><?= htmlspecialchars($businessName) ?></strong><br>
+        <?= htmlspecialchars($businessAddress); ?><br>
+        <?php if ($includeGst): ?>
+            GST No: <?= htmlspecialchars($gstNo); ?><br>
+        <?php endif; ?>
+        <br>
+        Phone: <?= htmlspecialchars($businessContact) ?><br>
+        <?= htmlspecialchars($businessEmail) ?><br>
     </div>
 
     <!-- Customer & Session Details -->
     <div>
-        <p><strong>Customer:</strong> <?= htmlspecialchars($session['name']) ?></p>
-        <p><strong>Check-In Time:</strong> <br> <?= date("h:i A - d/m/Y", strtotime($session['check_in_time'])) ?></p>
-        <p><strong>Assigned Hours:</strong> <?= ($assignedHours == 0.5) ? '1/2' : $assignedHours ?> Hours</p>
+        <p><strong>Kid's Name:</strong> <?= htmlspecialchars($session['name']) ?></p>
+        <p><strong>Assigned Hours:</strong> <?= htmlspecialchars($assignedHours == 0.5 ? "Half " : $assignedHours) ?> <?= $assignedHours <= 1 ? "Hour" : "Hours";?>  </p>
+        <p><strong>Check-In Time:</strong> <?= date("h:i A - d/m/Y", strtotime($session['check_in_time'])) ?></p>
     </div>
 
     <!-- Billing Section -->
-    <div class="billing">
-        <p><strong>Hourly Billing</strong></p>
-        <div class="line-item">
-            <span>Base Amount (Excl. GST)</span>
-            <span>₹<?= number_format($baseAmount, 2) ?></span>
-        </div>
-        <div class="line-item">
-            <span>CGST (<?= $cgstRate * 100 ?>%)</span>
-            <span>₹<?= number_format($cgstAmount, 2) ?></span>
-        </div>
-        <div class="line-item">
-            <span>SGST (<?= $sgstRate * 100 ?>%)</span>
-            <span>₹<?= number_format($sgstAmount, 2) ?></span>
-        </div>
+    <div>
+        <p><strong>Receipt Details:</strong></p>
+        <?php if ($includeGst): ?>
+            <div class="line-item">
+                <span>Base Amount (Excl. GST):</span>
+                <span>₹<?= number_format($baseAmount, 2) ?></span>
+            </div>
+            <div class="line-item">
+                <span>CGST (<?= $cgstRate * 100 ?>%):</span>
+                <span>₹<?= number_format($cgstAmount, 2) ?></span>
+            </div>
+            <div class="line-item">
+                <span>SGST (<?= $sgstRate * 100 ?>%):</span>
+                <span>₹<?= number_format($sgstAmount, 2) ?></span>
+            </div>
+        <?php endif; ?>
 
         <?php if (isset($discountAmount)): ?>
         <div class="line-item">
@@ -203,9 +193,9 @@ if ($sessionId) {
         </div>
         <?php endif; ?>
 
-        <!-- Total -->
+
         <div class="line-item total">
-            <span>Total (Incl. GST)</span>
+            <span>Total Cost:</span>
             <span>₹<?= number_format($totalAmountInclusive, 2) ?></span>
         </div>
     </div>
@@ -217,10 +207,8 @@ if ($sessionId) {
     </div>
 </div>
 <div class="btn-container">
-    <a href="" class="btn btn-red" onclick="window.print()">Print Receipt</a>
+    <a href="#" class="btn btn-red" onclick="window.print()">Print Receipt</a>
     <a href="index.php" class="btn btn-green">Go Back</a>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-
 </body>
 </html>
