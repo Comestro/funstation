@@ -138,7 +138,7 @@ require_once 'include/login_required.php';
                         const isTimeExceeded = hasTimeExceeded(checkInTime, session.assigned_hours);
 
                         $('#currentSessions').append(`
-                    <li class="relative shadow-md border-gray-300 border bg-green-100 text-green-800"}">
+                    <li class="w-full shadow-md border-gray-300 border bg-green-100 text-green-800"}">
                      
                         <div class="flex flex-col md:flex-row items-start md:items-center">
                             <div class="flex-1 min-w-0">
