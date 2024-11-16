@@ -19,54 +19,67 @@ require_once 'include/login_required.php';
 
 <body class="bg-cover h-screen overflow-y-scroll ">
     <!-- Sidebar Toggle Button -->
+     <div class="flex">
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
         <span class="sr-only">Open sidebar</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"> 
             <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
         </svg>
     </button>
-
+    <div class="absolute top-0  right-0">
+    <img src="images/logo.png" alt="Logo" 
+        class="w-32 h-auto mt-2 ms-3 sm:hidden px-2   " />
+        </div>
+        </div>
+   
     <?php include_once "include/sidebar.php"; ?>
 
     <!-- Main Content -->
+   
+
     <div class="p-4 sm:ml-64">
-        <div class="p-4  rounded-lg">
-            <div class="grid grid-cols-1 gap-4 mb-4">
-                <div class="flex flex-col gap-3">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center space-x-2">
-                            <!-- Realtime Sessions Header -->
-                            <h3 class="md:text-2xl font-bold text-slate-600">Realtime Sessions (<span id="count_session">0</span>)</h3>
+    <div class="p-4 rounded-lg">
+        <div class="grid grid-cols-1 gap-4 mb-4">
+            <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <!-- Realtime Sessions Header -->
+                        <h3 class="md:text-2xl font-bold text-slate-600">Realtime Sessions (<span id="count_session">0</span>)</h3>
 
-                            <!-- Ping Indicator -->
-                            <span class="relative flex h-3 w-3 -mt-5">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                            </span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <a href="#ex1" rel="modal:open" class="bg-pink-600 hover:bg-pink-800 text-white px-3 py-2 ml-5 rounded shadow">Add Session</a>
-                            <div id="ex1" class="modal">
-                                <div class="mx-auto mt-5">
-                                    <h2 class="text-2xl font-semibold  mb-6">Add Session</h2>
-                                    <?php include "include/insert_session_form.php"; ?>
-
-                                </div>
-                            </div>
-                            <a href="index.php" class="hidden bg-white hover:bg-gray-50 border border-green-600 text-green-600 font-semibold px-3 py-2 rounded shadow md:flex items-center gap-1">
-                                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4" />
-                                </svg>
-                                <span>Refresh</span>
-
-                            </a>
-                        </div>
+                        <!-- Ping Indicator (Hidden on small screens) -->
+                        <span class="relative flex h-3 w-3 -mt-5 hidden sm:flex">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </span>
                     </div>
-                    <ul role="list" class="gap-3 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1" id="currentSessions"></ul>
+                    <div class="flex items-center gap-2">
+                        <!-- Add Session Button (Hidden on small screens) -->
+                        <a href="#ex1" rel="modal:open" class="bg-pink-600 hover:bg-pink-800 text-white px-3 py-2 ml-5 rounded shadow hidden sm:block">
+                            Add Session
+                        </a>
+
+                        <!-- Modal -->
+                        <div id="ex1" class="modal">
+                            <div class="mx-auto mt-5">
+                                <h2 class="text-2xl font-semibold mb-6">Add Session</h2>
+                                <?php include "include/insert_session_form.php"; ?>
+                            </div>
+                        </div>
+
+                        <!-- Refresh Button (Visible only on medium and larger screens) -->
+                        <a href="index.php" class="hidden bg-white hover:bg-gray-50 border border-green-600 text-green-600 font-semibold px-3 py-2 rounded shadow md:flex items-center gap-1">
+                            <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4" />
+                            </svg>
+                            <span>Refresh</span>
+                        </a>
+                    </div>
                 </div>
+                <ul role="list" class="gap-3 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1" id="currentSessions"></ul>
             </div>
         </div>
     </div>
+</div>
 
     <!-- JavaScript -->
     <script>
@@ -138,7 +151,7 @@ require_once 'include/login_required.php';
                     <li class="shadow-md border-gray-300 border ${isTimeExceeded ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"}">
                         <div class="flex flex-col md:flex-row items-start md:items-center">
                             <div class="flex-1 min-w-0">
-                                <div class="py-2 px-3 flex flex-col md:flex-row items-start md:items-center gap-3">
+                                <div class="p-2 flex flex-col md:flex-row items-start md:items-center gap-3">
                                     <div class="flex-1 flex flex-col gap-2">
                                         <p class="text-sm font-medium  text-gray-900 truncate ">
                                             ${session.name}
@@ -152,27 +165,28 @@ require_once 'include/login_required.php';
                                         <p class="text-sm truncate">
                                             Time Left: <span id="timer-${session.session_id}" class="font-bold"></span>
                                         </p>
-                                    </div>
-                                    <div class="flex flex-col gap-1 items-start text-xs font-semibold">
-                                        <div class="flex items-center gap-1 px-2 py-1">
+                                         <div class="flex flex-row gap-1  text-xs font-semibold">
+                                        <div class="flex items-center gap-1 w-full hover:bg-gray-200 hover:cursor-pointer  py-1">
                                             <svg class="size-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
                                             <span class="truncate">${session.assigned_hours} ${session.assigned_hours == 1 ? "hour" : "hours"}</span>
                                         </div>
-                                        <div class="flex items-center gap-1 w-full hover:bg-gray-200 hover:cursor-pointer px-2 py-1">
+                                        <div class="flex items-center gap-1 w-full hover:bg-gray-200 hover:cursor-pointer  py-1">
                                             <svg class="size-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z"/>
                                             </svg>
                                             <a href="receipt.php?session_id=${session.session_id}">Receipt</a>
                                         </div>
-                                        <div class="flex items-center truncate w-full gap-1 hover:bg-gray-200 hover:cursor-pointer px-2 py-1">
+                                        <div class="flex items-center truncate w-full gap-1 hover:bg-gray-200 hover:cursor-pointer  py-1">
                                             <svg class="w-[14px] h-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
                                             <button class="check-out-btn" data-session-id="${session.session_id}">Check-out</button>
                                         </div>
                                     </div>
+                                    </div>
+                                   
                                 </div>
                                 <!-- Progress bar -->
                                 <div class="w-full bg-gray-200 rounded-full h-1  mt-2">
