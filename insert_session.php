@@ -29,7 +29,7 @@ require_once 'include/login_required.php';
             <div class="mx-auto mt-5 md:w-1/2">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-2">
-                        <h3 class="text-2xl font-bold text-gray-600">Add New Sessions</h3>
+                        <h3 class="md:text-2xl font-bold text-gray-600">Add New Sessions</h3>
                     </div>
                     <div class="flex items-center gap-2">
                         <a href="index.php" class="bg-white hover:bg-gray-50 border border-green-600 text-green-600 font-semibold px-3 py-2 rounded shadow flex items-center gap-1">
@@ -37,7 +37,7 @@ require_once 'include/login_required.php';
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 12h14M5 12l4-4m-4 4 4 4" />
                             </svg>
 
-                            <span>Go Back</span>
+                            <span class="truncate">Go Back</span>
 
                         </a>
                     </div>
