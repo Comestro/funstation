@@ -1,4 +1,4 @@
-<form action="function/add_session.php" method="POST" class="space-y-6 p-6 bg-white shadow rounded-lg mx-auto">
+<form action="function/add_session.php" method="POST" class="space-y-6 md:p-6 p-2 bg-white shadow rounded-lg mx-auto">
     <div class="form-group">
         <label for="name" class="block text-sm font-medium text-gray-700">Kid's Name <span class="text-red-500">*</span>:</label>
         <input type="text" id="name" name="name" placeholder="Enter kid's name"
