@@ -54,6 +54,7 @@ require_once 'include/login_required.php';
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Session Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-In Time</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned Hours</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-Out Time</th>
@@ -98,6 +99,11 @@ require_once 'include/login_required.php';
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
                                     ${session.name}
+                                </p>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    ${session.contact}
                                 </p>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">

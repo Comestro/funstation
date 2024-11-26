@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Check if kid already exists based on contact
-        $stmt = $db->prepare("SELECT id FROM kids WHERE contact = ?");
-        $stmt->bind_param("s", $contact);
+        $stmt = $db->prepare("SELECT id FROM kids WHERE contact = ? and contact = ?");
+        $stmt->bind_param("ss", $contact, $name);
         $stmt->execute();
         $result = $stmt->get_result();
 
