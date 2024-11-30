@@ -19,7 +19,7 @@ require_once 'include/login_required.php';
 
 <body class="bg-cover h-screen overflow-y-scroll ">
     <!-- Sidebar Toggle Button -->
-    
+
 
     <?php include_once "include/header.php"; ?>
     <?php include_once "include/sidebar.php"; ?>
@@ -136,23 +136,40 @@ require_once 'include/login_required.php';
                             hour12: false
                         });
                         const isTimeExceeded = hasTimeExceeded(checkInTime, session.assigned_hours);
-
-                        $('#currentSessions').append(`
-                    <li class="w-full shadow-md border-gray-300 border bg-green-100 text-green-800"}">
-                     
+                        const extendButton = isTimeExceeded ?
+                            `
+    <div class="flex justify-center items-center w-full gap-1">
+        <select class="extend-time-dropdown px-2 text-sm" data-session-id="${session.session_id}">
+            <option value="" selected disabled>Extend Time</option>
+            <option value="0.5">half Hour</option>
+            <option value="1">1 hour</option>
+            <option value="2">2 hours</option>
+            <option value="3">3 hours</option>
+            <option value="4">4 hours</option>
+            <option value="5">5 hours</option>
+        </select>
+    </div>
+    ` :"";
+            $('#currentSessions').append(`
+                    <li class="w-full shadow-md border-gray-300 border ${isTimeExceeded ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"}">
                         <div class="flex flex-col md:flex-row items-start md:items-center">
                             <div class="flex-1 w-full">
                                 <div class="p-2 flex flex-col md:flex-row items-start md:items-center gap-3">
                                     <div class="flex-1 w-full flex flex-col gap-2">
-                                        <p class="text-sm font-medium  text-gray-900 truncate ">
-                                            ${session.name}
-                                        </p>
-                                        <p title="${checkInTime.toLocaleString()}" class="cursor-help text-sm flex items-center gap-1 truncate">
-                                            <svg class="w-[14px] h-[14px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
+                                       <div class="flex-1 flex w-full justify-between"> 
+                                            <p class="text-sm font-bold  text-gray-900 truncate ">
+                                                ${session.name}
+                                            </p>
+                                            <span>${extendButton}</span>
+                                        </div>
+
+                                        <div class="flex-1 flex items-center gap-1 w-full">
+                                        <svg class="w-[14px] h-[14px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/>
-                                            </svg> ${formattedTime} ${checkInTime.getHours() >= 12 ? 'PM' : 'AM'}
-                                        </p>
+                                            </svg> 
+                                            <span>${formattedTime} ${checkInTime.getHours() >= 12 ? 'PM' : 'AM'}</span>
+                                            </div>
                                         <p class="text-sm truncate">
                                             Time Left: <span id="timer-${session.session_id}" class="font-bold"></span>
                                         </p>
@@ -181,7 +198,7 @@ require_once 'include/login_required.php';
                                 </div>
                                 <!-- Progress bar -->
                                 <div class="w-full bg-gray-200 rounded-full h-1  mt-2">
-                                    <div class=" bg-green-600 h-1 rounded-full" id="progress-bar-${session.session_id}" style="width: 100%"></div>
+                                    <div class="${isTimeExceeded ? "bg-red-600 " : "bg-green-600"} h-1 rounded-full" id="progress-bar-${session.session_id}" style="width: 100%"></div>
                                 </div>
                             </div>
                         </div>
@@ -203,33 +220,37 @@ require_once 'include/login_required.php';
 
             // Real-time timer and progress bar updater for each session
             function startRealTimeTimer(sessionId, checkInTime, assignedHours) {
-                const timerElement = document.getElementById(`timer-${sessionId}`);
-                const progressBar = document.getElementById(`progress-bar-${sessionId}`);
-                const totalMinutes = assignedHours * 60;
-                const sessionCard = document.querySelector(`#timer-${sessionId}`).closest("li");
+                const endTime = new Date(checkInTime.getTime() + assignedHours * 60 * 60 * 1000);
 
 
-                setInterval(() => {
+                // Declare timerInterval here to ensure it is accessible throughout the function
+                let timerInterval;
+
+                function updateTimer() {
                     const now = new Date();
-                    const elapsedMinutes = Math.floor((now - checkInTime) / (1000 * 60));
-                    const remainingMinutes = totalMinutes - elapsedMinutes;
+                    const remainingTime = Math.max(endTime - now, 0);
 
-                    // Update the timer display
-                    if (remainingMinutes > 0) {
-                        timerElement.textContent = `${Math.floor(remainingMinutes / 60)}h ${remainingMinutes % 60}m left`;
-                        progressBar.style.width = `${(elapsedMinutes / totalMinutes) * 100}%`;
+                    if (remainingTime === 0) {
+                        clearInterval(timerInterval); // Clear the interval when time is over
+                        document.getElementById(`timer-${sessionId}`).textContent = "Time Over";
                     } else {
-                        timerElement.textContent = "Time exceeded!";
-                        timerElement.classList.add("text-red-600");
-                        progressBar.style.width = "100%";
-                        // Dynamically update the background and text color
-                        sessionCard.classList.remove("bg-green-100", "text-green-800");
-                        sessionCard.classList.add("bg-red-100", "text-red-800");
-                        progressBar.classList.remove("bg-green-600");
-                        progressBar.classList.add("bg-red-600");
+                        const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+                        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                        document.getElementById(`timer-${sessionId}`).textContent = `${hours}h ${minutes}m ${seconds}s`;
+
+                        // Update the progress bar
+                        const totalDuration = assignedHours * 60 * 60 * 1000;
+                        const progressPercentage = ((totalDuration - remainingTime) / totalDuration) * 100;
+                        document.getElementById(`progress-bar-${sessionId}`).style.width = `${progressPercentage}%`;
                     }
-                }, 1000);
+                }
+
+                updateTimer(); // Initial call to set the timer immediately
+                timerInterval = setInterval(updateTimer, 1000); // Assign the interval to the declared variable
             }
+
 
             // Checkout button click handler
             $(document).on('click', '.check-out-btn', function() {
@@ -252,6 +273,39 @@ require_once 'include/login_required.php';
                     });
                 }
             });
+
+            $(document).on("change", ".extend-time-dropdown", function() {
+                const sessionId = $(this).data("session-id");
+                const extraHours = $(this).val();
+
+                if (extraHours && !isNaN(extraHours) && extraHours > 0) {
+                    $.post("api/extra_hours.php", {
+                            session_id: sessionId,
+                            extra_hours: extraHours
+                        })
+                        .done(function(response) {
+                            const data = JSON.parse(response);
+                            loadSessions(); // Reload the session list
+
+
+                            if (data.success) {
+                                alert("Assigned hours extended successfully!");
+
+                                // Update the UI and timer
+                                const checkInTime = new Date(); // Assuming current time is the new start point
+                                startRealTimeTimer(sessionId, checkInTime, parseInt(extraHours)); // Restart the timer
+                            } else {
+                                alert("Failed to extend assigned hours.");
+                            }
+                        })
+                        .fail(function() {
+                            alert("An error occurred while extending assigned hours.");
+                        });
+                } else {
+                    alert("Please enter a valid number of hours.");
+                }
+            });
+
 
             // Initial load and periodic refresh
             loadSessions();
