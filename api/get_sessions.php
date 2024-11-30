@@ -34,7 +34,7 @@ if (!empty($searchTerm)) {
 }
 
 // Fetch current sessions (active, not checked out)
-$currentSessionsQuery = "SELECT s.id AS session_id, k.name, s.check_in_time, s.assigned_hours
+$currentSessionsQuery = "SELECT s.id AS session_id, k.name,k.contact, s.check_in_time, s.assigned_hours
                          FROM sessions s
                          JOIN kids k ON s.kid_id = k.id
                          WHERE s.check_out_time IS NULL 

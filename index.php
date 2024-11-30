@@ -154,11 +154,17 @@ require_once 'include/login_required.php';
                     <li class="w-full shadow-md border-gray-300 border ${isTimeExceeded ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"}">
                         <div class="flex flex-col md:flex-row items-start md:items-center">
                             <div class="flex-1 w-full">
-                                <div class="p-2 flex flex-col md:flex-row items-start md:items-center gap-3">
+                                <div class="p-2 flex flex-col md:flex-row items-center gap-3">
                                     <div class="flex-1 w-full flex flex-col gap-2">
                                        <div class="flex-1 flex w-full justify-between"> 
-                                            <p class="text-sm font-bold  text-gray-900 truncate ">
-                                                ${session.name}
+                                            <p class="text-sm  flex flex-col  text-gray-900 truncate ">
+                                                <span class='font-bold'>${session.name}</span>
+                                                <span class='flex ml-0 items-center'>
+                                                <svg class="w-[18px] h-[18px] aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.427 14.768 17.2 13.542a1.733 1.733 0 0 0-2.45 0l-.613.613a1.732 1.732 0 0 1-2.45 0l-1.838-1.84a1.735 1.735 0 0 1 0-2.452l.612-.613a1.735 1.735 0 0 0 0-2.452L9.237 5.572a1.6 1.6 0 0 0-2.45 0c-3.223 3.2-1.702 6.896 1.519 10.117 3.22 3.221 6.914 4.745 10.12 1.535a1.601 1.601 0 0 0 0-2.456Z"/>
+                                                </svg>
+                                                <span>${session.contact}</span>
+                                                </span>
                                             </p>
                                             <span>${extendButton}</span>
                                         </div>
