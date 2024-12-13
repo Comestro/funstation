@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     } else {
         echo "<script>alert('Invalid username or password.');</script>";
-        echo "<script>window.open('index.php','_self');</script>";
+        echo "<script>window.open('../index.php','_self');</script>";
     }
 }
 ?>

@@ -42,9 +42,17 @@ if ($result && $result->num_rows > 0) {
     <?php include_once "include/sidebar.php"; ?>
 
     <!-- Main Content -->
+    <!-- session message -->
+     
     <div class="p-4 sm:ml-64 mt-5">
         <h1 class="text-3xl font-bold text-gray-800 mb-6"><?= $title; ?> Settings</h1>
-
+        <?php if (isset($_SESSION['message'])) :?>
+        <div class="bg-green-100 border rounded-lg border-green-600 mb-5 text-green-800 p-4" role="alert">
+            <?php echo $_SESSION['message'];?>
+            
+        </div>
+        <?php unset($_SESSION['message']);?>
+    <?php endif;?>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <!-- Hourly Charge -->
             <div class="border border-pink-700 rounded-lg shadow-md p-6">
