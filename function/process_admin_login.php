@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../index.php");  // Redirect to the admin dashboard
         exit;
     } else {
-        echo "Invalid username or password.";
+        echo "<script>alert('Invalid username or password.');</script>";
+        echo "<script>window.open('index.php','_self');</script>";
     }
 }
 ?>
