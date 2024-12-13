@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Update password
     if (isset($_POST['password']) && !empty($_POST['password'])) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $stmt = $db->prepare("UPDATE settings SET password = ? WHERE id = 1");
+        $stmt = $db->prepare("UPDATE admin SET password = ? WHERE id = 1");
         $stmt->bind_param("s", $password);
         if (!$stmt->execute()) {
             $errors[] = "Failed to update password.";
