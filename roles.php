@@ -1,5 +1,9 @@
 <?php
 require_once 'config/database.php';
+require_once 'include/login_required.php';
+
+if ($_SESSION['admin_id'] === 1) {
+
 
 // Fetch all admins without selecting the 'role' column
 $query = "SELECT id, username FROM admin";
@@ -103,3 +107,4 @@ $result = $db->query($query);
 </body>
 
 </html>
+<?php } else {echo "unauthorized";} ?>

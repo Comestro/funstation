@@ -34,15 +34,6 @@
                 </a>
             </li>
             <li>
-                <a href="report.php" class="flex items-center p-2 text-white rounded-lg bg-pink-600  hover:bg-pink-800 group">
-                    <svg class="w-[24px] h-[24px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667" />
-                    </svg>
-
-                    <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
-                </a>
-            </li>
-            <li>
                 <a href="settings.php" class="flex items-center p-2 text-white rounded-lg bg-pink-600  hover:bg-pink-800 group">
                     <svg class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="1" d="M6 4v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2m6-16v2m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v10m6-16v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2" />
@@ -50,6 +41,17 @@
 
 
                     <span class="flex-1 ms-3 whitespace-nowrap">Settings</span>
+                </a>
+            </li>
+           
+            <?php if ($_SESSION['admin_id'] === 1): ?>
+                <li>
+                <a href="report.php" class="flex items-center p-2 text-white rounded-lg bg-pink-600  hover:bg-pink-800 group">
+                    <svg class="w-[24px] h-[24px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667" />
+                    </svg>
+
+                    <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
                 </a>
             </li>
             <li>
@@ -61,15 +63,14 @@
                 </a>
             </li>
             <li>
-                <a href="offer.php" class="flex items-center p-2 text-white roun
-                ded-lg bg-pink-600  hover:bg-pink-800 group">
+                <a href="offer.php" class="flex items-center p-2 text-white rounded-lg bg-pink-600  hover:bg-pink-800 group">
                 <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
                 </svg>
                 <span class="flex-1 ms-3 whitespace-nowrap">Offers</span>
                 </a>
             </li>
-
+            <?php endif; ?>
             <li>
                 <a href="logout.php" class="flex items-center p-2 text-white rounded-lg bg-pink-600  hover:bg-pink-800 group">
                     <svg class="w-[24px] h-[24px] " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

@@ -1,6 +1,11 @@
-<?php include_once "config/database.php"; 
+<?php include_once "config/database.php";
 
 require_once 'include/login_required.php';
+
+$isAdmin = false; // Default to non-admin
+if (isset($_SESSION['admin_id']) && $_SESSION['admin_id'] === 1) {
+    $isAdmin = true;
+}
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +24,7 @@ require_once 'include/login_required.php';
 </head>
 
 <body>
-<?php include_once "include/header.php"; ?>
+    <?php include_once "include/header.php"; ?>
 
 
     <?php include_once "include/sidebar.php"; ?>
@@ -31,7 +36,7 @@ require_once 'include/login_required.php';
                 <div class="flex md:flex-row flex-col md:justify-between md:items-center ">
                     <h3 class="text-xl font-semibold md:mb-0 mb-4">Checkout Sessions</h3>
                     <div class="flex flex-col md:items-center md:flex-row justify-between  gap-2">
-                      
+
                         <!-- search work -->
                         <div class="flex">
                             <input type="text" id="searchTerm" placeholder="Search by Kid's Name" class="border rounded-s-lg border-gray-300 px-2 py-1 w-full sm:w-auto" />
@@ -50,22 +55,22 @@ require_once 'include/login_required.php';
 
 
                 <div class="overflow-x-scroll">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Session Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-In Time</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned Hours</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-Out Time</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Duration</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="checkoutSessions" class="bg-white divide-y divide-gray-200">
-                        <!-- Session rows will be dynamically inserted here -->
-                    </tbody>
-                </table>
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Session Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-In Time</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned Hours</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-Out Time</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Duration</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checkoutSessions" class="bg-white divide-y divide-gray-200">
+                            <!-- Session rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -73,28 +78,28 @@ require_once 'include/login_required.php';
 
     <!-- JavaScript -->
     <script>
-    $(document).ready(function() {
-        // Load sessions data and update the session list
-        function loadSessions(filter = 'today', search = '') {
-            $.getJSON('api/get_sessions.php', {
-                filter: filter,
-                search: search
-            }, function(data) {
-                $('#checkoutSessions').empty();
+        $(document).ready(function() {
+            // Load sessions data and update the session list
+            function loadSessions(filter = 'today', search = '') {
+                $.getJSON('api/get_sessions.php', {
+                    filter: filter,
+                    search: search
+                }, function(data) {
+                    $('#checkoutSessions').empty();
 
-                // Display current sessions
-                data.checked_out_sessions.forEach(function(session) {
-                    const checkInTime = new Date(session.check_in_time);
-                    const checkOutTime = new Date(session.check_out_time);
+                    // Display current sessions
+                    data.checked_out_sessions.forEach(function(session) {
+                        const checkInTime = new Date(session.check_in_time);
+                        const checkOutTime = new Date(session.check_out_time);
 
-                    // Calculate total duration in minutes
-                    const durationMillis = checkOutTime - checkInTime;
-                    const totalMinutes = Math.floor(durationMillis / (1000 * 60));
-                    const totalHours = Math.floor(totalMinutes / 60);
-                    const remainingMinutes = totalMinutes % 60;
-                    const totalDuration = `${totalHours}h ${remainingMinutes}m`;
+                        // Calculate total duration in minutes
+                        const durationMillis = checkOutTime - checkInTime;
+                        const totalMinutes = Math.floor(durationMillis / (1000 * 60));
+                        const totalHours = Math.floor(totalMinutes / 60);
+                        const remainingMinutes = totalMinutes % 60;
+                        const totalDuration = `${totalHours}h ${remainingMinutes}m`;
 
-                    $('#checkoutSessions').append(`
+                        $('#checkoutSessions').append(`
                         <tr class="bg-white text-black">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
@@ -126,33 +131,53 @@ require_once 'include/login_required.php';
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex gap-2">
-                                    <a  href="receipt.php?session_id=${session.session_id}" class="text-blue-600 hover:text-blue-800">Receipt</a>
+                                    <a href="receipt.php?session_id=${session.session_id}" class="text-blue-600 hover:text-blue-800">Receipt</a>
+                                ${<?php echo json_encode($isAdmin); ?> ? `
+                                    <button class="text-red-600 hover:text-red-800 delete-btn" data-id="${session.session_id}">
+                                        Delete
+                                    </button>` : ''}                                
                                 </div>
                             </td>
                         </tr>
                     `);
+                    
+                    });
+
+                    $('.delete-btn').on('click', function () {
+            const sessionId = $(this).data('id');
+            if (confirm('Are you sure you want to delete this session?')) {
+                $.post('api/delete_session.php', { session_id: sessionId }, function (response) {
+                    if (response.success) {
+                        alert('Session deleted successfully.');
+                        loadSessions(filter, search);
+                    } else {
+                        alert('Failed to delete session.');
+                    }
+                }, 'json');
+            }
+        });
                 });
+
+                
+            }
+
+            // Search button click handler
+            $('#searchBtn').on('click', function() {
+                const searchTerm = $('#searchTerm').val().trim();
+                const filter = $('#dateFilter').val(); // Get the current filter value
+                loadSessions(filter, searchTerm); // Load sessions with the current filter and search term
             });
-        }
 
-        // Search button click handler
-        $('#searchBtn').on('click', function() {
-            const searchTerm = $('#searchTerm').val().trim();
-            const filter = $('#dateFilter').val(); // Get the current filter value
-            loadSessions(filter, searchTerm); // Load sessions with the current filter and search term
+            // Date filter change handler
+            $('#dateFilter').on('change', function() {
+                const selectedFilter = $(this).val();
+                const searchTerm = $('#searchTerm').val().trim(); // Get current search term
+                loadSessions(selectedFilter, searchTerm); // Load sessions with the selected filter and current search term
+            });
+
+            // Initial load and periodic refresh
+            loadSessions(); // Load sessions without any filters initially
         });
-
-        // Date filter change handler
-        $('#dateFilter').on('change', function() {
-            const selectedFilter = $(this).val();
-            const searchTerm = $('#searchTerm').val().trim(); // Get current search term
-            loadSessions(selectedFilter, searchTerm); // Load sessions with the selected filter and current search term
-        });
-
-        // Initial load and periodic refresh
-        loadSessions(); // Load sessions without any filters initially
-    });
-
     </script>
 
     <!-- Flowbite JavaScript -->

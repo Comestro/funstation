@@ -1,5 +1,7 @@
 <?php
 require_once 'config/database.php';
+require_once 'include/login_required.php';
+
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

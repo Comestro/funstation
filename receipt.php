@@ -1,6 +1,6 @@
 <?php
-session_start();
 include 'config/database.php'; // Include database connection
+require_once 'include/login_required.php';
 
 // Fetch business information and hourly rate from the settings table
 $settingsQuery = "SELECT business_name, email, contact, hourly_charge, address, gst FROM settings LIMIT 1";

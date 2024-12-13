@@ -1,4 +1,9 @@
-<?php include "config/database.php"; ?>
+<?php include "config/database.php"; 
+require_once 'include/login_required.php';
+if ($_SESSION['admin_id'] === 1) {
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,3 +117,4 @@
 </body>
 
 </html>
+<?php } else {echo "unauthorized";} ?>
