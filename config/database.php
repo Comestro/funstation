@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';         // Database host
-$dbname = 'game_zone';       // Database name
+$dbname = 'game_zone1';       // Database name
 $username = 'root';          // Database username
 $password = '';              // Database password
 
@@ -16,6 +16,9 @@ if ($db->connect_error) {
 $db->set_charset("utf8");
 
 date_default_timezone_set('Asia/Kolkata'); // Replace with your timezone if different
+$password = password_hash(123456789, PASSWORD_DEFAULT); // Hash the password
+
+// $db->query("insert into admin (username, password) value ('rock','$password')");
 
 if (!isset($_SESSION['settings'])) {
     $result = $db->query("SELECT * FROM settings WHERE id = 1");

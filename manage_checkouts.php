@@ -36,7 +36,6 @@ if (isset($_SESSION['admin_id']) && $_SESSION['admin_id'] === 1) {
                 <div class="flex md:flex-row flex-col md:justify-between md:items-center ">
                     <h3 class="text-xl font-semibold md:mb-0 mb-4">Checkout Sessions</h3>
                     <div class="flex flex-col md:items-center md:flex-row justify-between  gap-2">
-
                         <!-- search work -->
                         <div class="flex">
                             <input type="text" id="searchTerm" placeholder="Search by Kid's Name" class="border rounded-s-lg border-gray-300 px-2 py-1 w-full sm:w-auto" />
@@ -45,12 +44,26 @@ if (isset($_SESSION['admin_id']) && $_SESSION['admin_id'] === 1) {
                         <!-- filter work -->
                         <select id="dateFilter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2">
                             <option value="today">Today</option>
-                            <option value="yesterday">Yesterday</option>
-                            <option value="last7days">Last 7 Days</option>
-                            <option value="thismonth">This Month</option>
-                            <option value="lastmonth">Last Month</option>
+                            <?php if ($isAdmin): ?>
+                                <option value="yesterday">Yesterday</option>
+                                <option value="last7days">Last 7 Days</option>
+                                <option value="thismonth">This Month</option>
+                                <option value="lastmonth">Last Month</option>
+                                <option value="last6months">Last 6 Months</option>
+                                <option value="thisyear">This Year</option>
+                                <option value="lastyear">Last Year</option>
+                            <?php endif; ?>
                         </select>
+
+                        <?php if ($isAdmin): ?>
+                            <button id="downloadXLS" class="bg-green-200 items-center flex text-green-800 font-semibold gap-2 border px-2 py-1 rounded-lg">
+                                Download
+                                <img src="images/excel.svg" width="30px" alt="">
+                            </button>
+                        <?php endif; ?>
                     </div>
+
+
                 </div>
 
 
@@ -140,25 +153,27 @@ if (isset($_SESSION['admin_id']) && $_SESSION['admin_id'] === 1) {
                             </td>
                         </tr>
                     `);
-                    
+
                     });
 
-                    $('.delete-btn').on('click', function () {
-            const sessionId = $(this).data('id');
-            if (confirm('Are you sure you want to delete this session?')) {
-                $.post('api/delete_session.php', { session_id: sessionId }, function (response) {
-                    if (response.success) {
-                        alert('Session deleted successfully.');
-                        loadSessions(filter, search);
-                    } else {
-                        alert('Failed to delete session.');
-                    }
-                }, 'json');
-            }
-        });
+                    $('.delete-btn').on('click', function() {
+                        const sessionId = $(this).data('id');
+                        if (confirm('Are you sure you want to delete this session?')) {
+                            $.post('api/delete_session.php', {
+                                session_id: sessionId
+                            }, function(response) {
+                                if (response.success) {
+                                    alert('Session deleted successfully.');
+                                    loadSessions(filter, search);
+                                } else {
+                                    alert('Failed to delete session.');
+                                }
+                            }, 'json');
+                        }
+                    });
                 });
 
-                
+
             }
 
             // Search button click handler
@@ -178,10 +193,21 @@ if (isset($_SESSION['admin_id']) && $_SESSION['admin_id'] === 1) {
             // Initial load and periodic refresh
             loadSessions(); // Load sessions without any filters initially
         });
+
+
+        //php export option
+        $(document).ready(function() {
+            $('#downloadXLS').on('click', function() {
+                const selectedFilter = $('#dateFilter').val();
+                window.location.href = `api/export_sessions.php?filter=${selectedFilter}`;
+            });
+        });
     </script>
 
     <!-- Flowbite JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+
 </body>
 
 </html>
