@@ -41,19 +41,28 @@ if (!empty($searchTerm)) {
     $searchCondition = "AND k.name LIKE '%$searchTerm%'";
 }
 
+$currentSessionsQuery = "SELECT s.id AS session_id, k.name,k.contact, s.check_in_time, s.assigned_hours, s.include_socks
+                         FROM sessions s
+                         JOIN kids k ON s.kid_id = k.id
+                         WHERE s.check_out_time IS NULL 
+                         ORDER BY s.check_in_time DESC";
+$currentSessionsResult = $db->query($currentSessionsQuery);
+$currentSessions = $currentSessionsResult->fetch_all(MYSQLI_ASSOC);
+
 // Fetch checked-out sessions with the new filters
 $checkedOutSessionsQuery = "SELECT s.id AS session_id, k.name, k.contact, s.check_in_time, s.check_out_time, s.assigned_hours
                             FROM sessions s
                             JOIN kids k ON s.kid_id = k.id
                             WHERE s.check_out_time IS NOT NULL 
                             AND $dateCondition
-                            $searchCondition
-                            ORDER BY s.check_out_time DESC";
+                            $searchCondition 
+                            ORDER BY s.check_out_time DESC"; // Adjust the limit
 $checkedOutSessionsResult = $db->query($checkedOutSessionsQuery);
 $checkedOutSessions = $checkedOutSessionsResult->fetch_all(MYSQLI_ASSOC);
 
 // Combine both types of data into one response
 $response = [
+    'current_sessions' => $currentSessions,
     'checked_out_sessions' => $checkedOutSessions
 ];
 

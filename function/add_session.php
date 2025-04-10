@@ -9,16 +9,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $age = $_POST['age'];
     $contact = $_POST['contact'];
     $include_gst = $_POST['include_gst'];
+    $include_socks = isset($_POST['include_socks']) ? 1 : 0;
 
     $settingsQuery = "SELECT business_name, email, contact, hourly_charge, address, gst FROM settings LIMIT 1";
     $settingsResult = $db->query($settingsQuery);
     $settings = $settingsResult->fetch_assoc();
 
-    // Assume hourly_rate is fetched from your settings
-    $hourly_rate = $settings['hourly_charge']; // e.g., you can retrieve this from the settings table
+    $hourly_rate = $settings['hourly_charge'];
 
-    // Calculate the total cost
+    // Calculate the total cost including socks if selected
     $total_cost = ($assigned_hours == 0.5) ? $hourly_rate * 0.6 : $hourly_rate * $assigned_hours;
+    if ($include_socks) {
+        $total_cost += 30; // Add socks charge
+    }
 
     // Start a transaction
     $db->begin_transaction();
@@ -43,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Insert the new session with check-in time, kid ID, assigned hours, and total cost
-        $stmt = $db->prepare("INSERT INTO sessions (kid_id, check_in_time, assigned_hours, total_cost, include_gst) VALUES (?, ?, ?, ?,?)");
-        $stmt->bind_param("isddd", $kid_id, $check_in_time, $assigned_hours, $total_cost, $include_gst);
+        $stmt = $db->prepare("INSERT INTO sessions (kid_id, check_in_time, assigned_hours, total_cost, include_gst, include_socks) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isddii", $kid_id, $check_in_time, $assigned_hours, $total_cost, $include_gst, $include_socks);
         $stmt->execute();
 
         // Get the inserted session ID

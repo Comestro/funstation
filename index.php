@@ -166,7 +166,33 @@ require_once 'include/login_required.php';
                                                 <span>${session.contact}</span>
                                                 </span>
                                             </p>
-                                            <span>${extendButton}</span>
+                                            <div class="flex items-center gap-2">
+                                ${extendButton}
+                                <!-- 3-dot menu -->
+                                <div class="relative">
+                                    <button class="action-menu-btn p-1 hover:bg-gray-200 rounded" data-session-id="${session.session_id}">
+                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 12h.01M12 6h.01M12 18h.01"/>
+                                        </svg>
+                                    </button>
+                                    <!-- Dropdown menu -->
+                                    <div class="action-menu hidden absolute right-0 z-10 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5" role="menu" data-session-id="${session.session_id}">
+                                        <div class="py-1" role="none">
+                                            ${session.include_socks == 0? `
+                                            <button class="add-socks-btn text-gray-700 block px-4 py-2 text-sm w-full text-left hover:bg-gray-100" role="menuitem" data-session-id="${session.session_id}">
+                                                Add Socks (₹30)
+                                            </button>
+                                            ` : ''}
+                                            <a href="receipt.php?session_id=${session.session_id}" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">
+                                                View Receipt
+                                            </a>
+                                            <button class="check-out-btn text-red-700 block px-4 py-2 text-sm w-full text-left hover:bg-gray-100" role="menuitem" data-session-id="${session.session_id}">
+                                                Check Out
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                                         </div>
 
                                         <div class="flex-1 flex items-center gap-1 w-full">
@@ -186,6 +212,7 @@ require_once 'include/login_required.php';
                                             </svg>
                                             <span class="truncate">${session.assigned_hours} ${session.assigned_hours == 1 ? "hour" : "hours"}</span>
                                         </div>
+                                      
                                         <div class="flex justify-center items-center gap-1 w-full hover:bg-gray-200 hover:cursor-pointer  py-1">
                                             <svg class="size-[14px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z"/>
@@ -312,6 +339,43 @@ require_once 'include/login_required.php';
                 }
             });
 
+            // Action menu toggle
+            $(document).on('click', '.action-menu-btn', function(e) {
+                e.stopPropagation();
+                const sessionId = $(this).data('session-id');
+                $('.action-menu').each(function() {
+                    if ($(this).data('session-id') !== sessionId) {
+                        $(this).addClass('hidden');
+                    }
+                });
+                $(`.action-menu[data-session-id="${sessionId}"]`).toggleClass('hidden');
+            });
+
+            // Close menu when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.action-menu, .action-menu-btn').length) {
+                    $('.action-menu').addClass('hidden');
+                }
+            });
+
+            // Add socks handler
+            $(document).on('click', '.add-socks-btn', function() {
+                const sessionId = $(this).data('session-id');
+                if (confirm('Add socks for ₹30?')) {
+                    $.post('api/add_socks.php', {
+                        session_id: sessionId
+                    }, function(response) {
+                        if (response.success) {
+                            alert('Socks added successfully!');
+                            loadSessions();
+                        } else {
+                            alert('Error adding socks: ' + response.message);
+                        }
+                    }, 'json').fail(function(jqXHR, textStatus, errorThrown) {
+                        alert('Request failed: ' + textStatus);
+                    });
+                }
+            });
 
             // Initial load and periodic refresh
             loadSessions();

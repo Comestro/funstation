@@ -1,4 +1,4 @@
-<aside id="logo-sidebar" class="fixed top-0 md:bg-transparent bg-gray-100  left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+<aside id="logo-sidebar" class="fixed top-0 md:bg-white bg-gray-100  left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gradient-to-b from-transparent to-white via-transparent border-r">
         <a href="" class="flex items-center ps-2.5 mb-5">
             <img src="images/logo.png" class="w-full me-3" alt="Flowbite Logo" />

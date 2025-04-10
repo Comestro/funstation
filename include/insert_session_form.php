@@ -41,15 +41,29 @@
         <p class="text-xs text-slate-400">By default 1 hour is assigned automatically</p>
     </div>
 
-    <div class="flex items-center space-x-3">
-        <input type="checkbox" id="gst" name="include_gst" value="1" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-        <label for="gst" class="block text-sm font-medium text-gray-700">
-            Include GST
-        </label>
+    <div class="form-group">
+        <div class="flex items-center">
+            <input type="checkbox" id="socks" name="include_socks" value="1" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+            <label for="socks" class="ml-2 block text-sm font-medium text-gray-700">
+                Add Socks (₹30)
+            </label>
+        </div>
+        <p class="mt-1 text-sm text-gray-500">
+            Check this box if the customer needs socks.
+        </p>
     </div>
-    <p class="mt-1 text-xs text-gray-500">
-        Check this box if GST should be applied to the bill.
-    </p>
+
+    <div class="form-group mt-4">
+        <div class="flex items-center">
+            <input type="checkbox" id="gst" name="include_gst" value="1" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+            <label for="gst" class="ml-2 block text-sm font-medium text-gray-700">
+                Include GST
+            </label>
+        </div>
+        <p class="mt-1 text-sm text-gray-500">
+            Check this box if GST should be applied to the bill.
+        </p>
+    </div>
 
     <button type="submit"
         class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

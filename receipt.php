@@ -56,7 +56,10 @@ if ($sessionId) {
         if ($includeGst) {
             // Calculate base amount and GST components from the inclusive total
             $baseAmount = $totalAmountInclusive / (1 + $gstRate);
-            $totalGstAmount = $totalAmountInclusive - $baseAmount;
+            if ($session['include_socks']) {
+                $baseAmount -= 30; // Remove socks charge from base amount
+            }
+            $totalGstAmount = $totalAmountInclusive - $baseAmount - ($session['include_socks'] ? 30 : 0);
             $cgstAmount = $baseAmount * $cgstRate;
             $sgstAmount = $baseAmount * $sgstRate;
         }
@@ -171,6 +174,18 @@ if ($sessionId) {
     <!-- Billing Section -->
     <div>
         <p><strong>Receipt Details:</strong></p>
+        <div class="line-item">
+            <span>Play Time Charges:</span>
+            <span>₹<?= number_format($baseAmount, 2) ?></span>
+        </div>
+
+        <?php if ($session['include_socks']): ?>
+        <div class="line-item">
+            <span>Socks:</span>
+            <span>₹30.00</span>
+        </div>
+        <?php endif; ?>
+
         <?php if ($includeGst): ?>
             <div class="line-item">
                 <span>Base Amount (Excl. GST):</span>
@@ -186,13 +201,12 @@ if ($sessionId) {
             </div>
         <?php endif; ?>
 
-        <?php if (isset($discountAmount)): ?>
+        <?php if (isset($offer) && isset($discountAmount)): ?>
         <div class="line-item">
-            <span>Discount (<?= htmlspecialchars($offer['discount_percentage']); ?>%)</span>
+            <span>Discount (<?= htmlspecialchars($offer['discount_percentage']) ?>%):</span>
             <span>-₹<?= number_format($discountAmount, 2) ?></span>
         </div>
         <?php endif; ?>
-
 
         <div class="line-item total">
             <span>Total Cost:</span>
