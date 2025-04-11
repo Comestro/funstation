@@ -44,11 +44,14 @@ if ($sessionId) {
         $offerResult = $stmt->get_result();
 
         if ($offer = $offerResult->fetch_assoc()) {
+            $sockCharge = ($session['include_socks'] ? 30 : 0);
+            $playTimeAmount = $totalAmountInclusive - $sockCharge;
+            
             $discount = $offer['discount_percentage'] / 100;
-            $discountAmount = $totalAmountInclusive * $discount;
-            $totalAmountInclusive -= $discountAmount;
-            $baseAmount = $totalAmountInclusive / (1 + $gstRate); // Recalculate base amount with discount
-            $totalGstAmount = $totalAmountInclusive - $baseAmount;
+            $discountAmount = $playTimeAmount * $discount;
+            $totalAmountInclusive = $playTimeAmount - $discountAmount + $sockCharge;
+            $baseAmount = ($totalAmountInclusive - $sockCharge) / (1 + $gstRate);
+            $totalGstAmount = ($totalAmountInclusive - $sockCharge) - $baseAmount;
             $cgstAmount = $baseAmount * $cgstRate;
             $sgstAmount = $baseAmount * $sgstRate;
         }
