@@ -179,7 +179,7 @@ if ($sessionId) {
         <p><strong>Receipt Details:</strong></p>
         <div class="line-item">
             <span>Play Time Charges:</span>
-            <span>₹<?= number_format($baseAmount, 2) ?></span>
+            <span>₹<?= number_format($playTimeAmount, 2) ?></span>
         </div>
 
         <?php if ($session['include_socks']): ?>
