@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';         // Database host
-$dbname = 'gamezone';       // Database name
-$username = 'root';          // Database username
+$dbname = 'u289240592_kfs';       // Database name
+$username = 'u289240592_kfs';          // Database username
 $password = 'Shaan@123';              // Database password
 
 // Create a new MySQLi connection
