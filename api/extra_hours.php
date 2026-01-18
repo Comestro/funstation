@@ -1,4 +1,5 @@
 <?php
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['admin_id'])) {
     include '../config/database.php'; // Include your database connection file
 
@@ -46,4 +47,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['admin_id'])) {
         echo json_encode(['success' => false, 'message' => 'Failed to update assigned hours and total cost']);
     }
 }
-?>

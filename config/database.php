@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';         // Database host
-$dbname = 'game_zone1';       // Database name
+$dbname = 'gamezone';       // Database name
 $username = 'root';          // Database username
-$password = '';              // Database password
+$password = 'Shaan@123';              // Database password
 
 // Create a new MySQLi connection
 $db = new mysqli($host, $username, $password, $dbname);
