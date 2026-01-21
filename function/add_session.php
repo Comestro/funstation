@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assigned_hours = $_POST['assigned_hours'];
     $age = $_POST['age'];
     $contact = $_POST['contact'];
-    $include_gst = $_POST['include_gst'];
+    $include_gst = isset($_POST['include_gst']) ? 1 : 0;
     $include_socks = isset($_POST['include_socks']) ? 1 : 0;
 
     $settingsQuery = "SELECT business_name, email, contact, hourly_charge, address, gst FROM settings LIMIT 1";
